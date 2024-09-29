@@ -1,0 +1,198 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: radial-gradient(circle, #f8f9fa, #dee2e6, #ced4da);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: backgroundPulse 10s infinite alternate ease-in-out;
+}
+
+@keyframes backgroundPulse {
+    0% {
+        background-color: #f8f9fa;
+    }
+    100% {
+        background-color: #dee2e6;
+    }
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    margin: auto;
+}
+
+
+.item-entry {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: all 0.4s ease;
+    background: #f8f9fa;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 10px rgba(123, 255, 0, 0.855);
+    background-color: #ffffff;
+}
+
+button {
+    padding: 12px 25px;
+    background: linear-gradient(45deg, #99ff00c0, #00ff33d5);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+
+button:hover {
+    background: linear-gradient(45deg, #2fff00, #d4ff00);
+    box-shadow: 0 0 15px rgba(0, 255, 76, 0.967);
+    transform: translateY(-3px);
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    animation: fadeIn 0.8s ease forwards;
+    opacity: 0;
+}
+
+ul.active {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+li {
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.5s ease, transform 0.5s ease;
+}
+
+li:hover {
+    background-color: #f1f3f5;
+    transform: translateX(8px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-btn, #clear-cart {
+    width: 50px; /* Gomb szélessége */
+    height: 50px; /* Gomb magasság */
+    border-radius: 50%; /* Kerek gomb */
+    background-color: #007bff; /* Gomb színe */
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(0); /* Elrejti a gombot lefelé mozdítva */
+    transition: transform 0.3s ease; /* Simult animáció a gomb visszaforgatásához */
+}
+
+.modal-btn img, #clear-cart img {
+    transition: width 0.5s ease, height 0.5s ease; /* Animáció a méretváltozáshoz */
+}
+
+.modal-btn:hover, #clear-cart:hover {
+    transform: translateY(0); /* Visszaáll a helyére, amikor hover állapotban van */
+} 
+
+.modal-btn:hover img, #clear-cart:hover img {
+    transform: scale(1.1);
+}
+
+
+.navbar {
+    background: linear-gradient(45deg, #99ff00c0, #00ff33d5); 
+    border-radius: 50px;
+}
+
+@media (min-width: 992px) {
+    .navbar {
+        position: sticky !important;
+        top: 25%;
+        bottom: 25%;
+        z-index: 1050;
+        height: auto;
+    }
+}
+  
+@media (max-width: 991.99px) {
+    body{
+        margin-bottom: 6.25rem;
+    }
+
+    .navbar {
+        bottom: 0;
+        height: 6.25rem;
+        width: 100%;
+        position: fixed !important;
+        z-index: 1050;
+    }
+}
+
+.nav-item {
+    border-bottom: none !important;
+    background-color: transparent;
+    margin-left: 0.625rem;
+    margin-right: 0.625rem;
+}
+
+.navbar .navbar-nav .nav-item:hover {
+    background-color: transparent;
+}
+
+hr{
+    border: none;
+    height: 0.625rem;
+    background-image: linear-gradient(45deg, #99ff00c0, #00ff33d5);
+    border-radius: 0.3125rem;
+    width: 25%;
+    margin: 0.3125rem auto 2.5rem auto;
+}
