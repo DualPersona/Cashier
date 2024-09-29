@@ -15,7 +15,7 @@ function addItem() {
 
         newItem.innerHTML = `${itemName} (${itemQuantity} x ${itemPrice.toFixed(2)} HUF) - ${itemTotal.toFixed(2)} HUF 
         <strong>Kategória:</strong> ${itemCategory} 
-        <button class="delete-btn" onclick="removeItem(this, ${itemTotal})">Törlés</button>`; 
+        <button class="delete-btn" onclick="removeItem(this, ${itemTotal})">Törlés</button>`;
         itemList.appendChild(newItem);
 
         totalPrice += itemTotal;
@@ -29,10 +29,10 @@ function addItem() {
         alert('Kérlek, add meg a termék nevét, mennyiségét és árát helyesen!');
     }
 }
-        // Kupon Funkció 
+// Kupon Funkció 
 function applyCoupon() {
     const coupon = document.getElementById('coupon-code').value.trim();
-    
+
     if (coupon === "DISCOUNT10") {
         totalPrice *= 0.9; // 10% kedvezmény
         document.getElementById('total-price').textContent = totalPrice.toFixed(2);
@@ -77,3 +77,31 @@ function filterItems() {
         }
     }
 }
+
+// Keresés funkció
+function searchProduct() {
+    const searchInput = document.getElementById("search-input").value;
+    fetch("your_php_file.php", {  // Itt cseréld ki a PHP fájl nevére
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name: searchInput })
+    })
+        .then(response => response.json())
+        .then(data => {
+            const resultsList = document.getElementById("search-results");
+            resultsList.innerHTML = ""; // Kiürítjük a korábbi eredményeket
+
+            if (data.length > 0) {
+                data.forEach(product => {
+                    const li = document.createElement("li");
+                    li.textContent = `${product.nev} - ${product.ar} HUF`;
+                    resultsList.appendChild(li);
+                });
+            } else {
+                resultsList.innerHTML = "<li>Nincs találat!</li>";
+            }
+        })
+        .catch(error => console.error("Hiba:", error));
+};
