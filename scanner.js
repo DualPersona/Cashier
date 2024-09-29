@@ -4,7 +4,7 @@ function startQrScanner() {
           var cameraId = devices[0].id;
           console.log(cameraId);
 
-          const html5QrCode = new Html5Qrcode("reader");
+          var html5QrCode = new Html5Qrcode("reader");
           html5QrCode.start(
               { facingMode: "environment" },
               {
@@ -40,35 +40,12 @@ function startQrScanner() {
   });
 }
 
-// Function to stop QR scanner
+startQrScanner()
+/* // Function to stop QR scanner
 function stopQrScanner() {
   // Implement logic to stop the scanner, if needed
   // html5QrCode.stop().then(() => { console.log("QR scanner stopped"); });
 }
+*/
 
-// Event listeners for modal functionality
-document.addEventListener("DOMContentLoaded", function() {
-  const modal = document.getElementById("qr-modal");
-  const openModalBtn = document.getElementById("modal-scan");
-  const closeModalBtn = document.getElementById("close-modal");
-
-  // Open modal and start QR scanner
-  openModalBtn.onclick = function() {
-      modal.style.display = "flex"; // Use 'flex' to center modal properly
-      startQrScanner();
-  }
-
-  // Close modal and stop QR scanner
-  closeModalBtn.onclick = function() {
-      modal.style.display = "none";
-      stopQrScanner();
-  }
-
-  // Close modal when clicking outside the modal content
-  window.onclick = function(event) {
-      if (event.target === modal) {
-          modal.style.display = "none";
-          stopQrScanner();
-      }
-  }
-});
+//console.log(`státusz:${html5QrCode.getState()}`)
