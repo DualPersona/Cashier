@@ -77,3 +77,49 @@ function filterItems() {
         }
     }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Kereső gomb megnyitása/zárása
+    document.getElementById("modal-item-search").onclick = function() {
+        const searchModal = document.getElementById("search-modal");
+        searchModal.style.display = (searchModal.style.display === "block") ? "none" : "block";
+    };
+
+    // Bezárás gomb
+    document.getElementById("close-search-modal").onclick = function() {
+        document.getElementById("search-modal").style.display = "none";
+    };
+
+    // Keresés funkció
+    window.searchProduct = function() {
+        const searchInput = document.getElementById("search-input").value;
+        fetch("your_php_file.php", {  // Itt cseréld ki a PHP fájl nevére
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name: searchInput })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultsList = document.getElementById("search-results");
+            resultsList.innerHTML = ""; // Kiürítjük a korábbi eredményeket
+
+            if (data.length > 0) {
+                data.forEach(product => {
+                    const li = document.createElement("li");
+                    li.textContent = `${product.nev} - ${product.ar} HUF`;
+                    resultsList.appendChild(li);
+                });
+            } else {
+                resultsList.innerHTML = "<li>Nincs találat!</li>";
+            }
+        })
+        .catch(error => console.error("Hiba:", error));
+    };
+});
+
+
+
+
+

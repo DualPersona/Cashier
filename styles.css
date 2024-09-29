@@ -122,7 +122,77 @@ li:hover {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-.modal-btn, #clear-cart {
+.delete-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 8px 15px;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.delete-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.delete-btn:hover::before {
+    width: 0%;
+    height: 0%;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(231, 76, 60, 0.4);
+}
+
+/* Qr scanner */
+.custom-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#reader {
+    width: 100%;
+    height: 300px;
+}
+
+.modal-btn {
     width: 50px; /* Gomb szélessége */
     height: 50px; /* Gomb magasság */
     border-radius: 50%; /* Kerek gomb */
@@ -135,16 +205,17 @@ li:hover {
     transition: transform 0.3s ease; /* Simult animáció a gomb visszaforgatásához */
 }
 
-.modal-btn img, #clear-cart img {
-    transition: width 0.5s ease, height 0.5s ease; /* Animáció a méretváltozáshoz */
+.modal-btn img {
+    transition: width 0.3s ease, height 0.3s ease; /* Animáció a méretváltozáshoz */
 }
 
-.modal-btn:hover, #clear-cart:hover {
+.modal-btn:hover {
     transform: translateY(0); /* Visszaáll a helyére, amikor hover állapotban van */
 } 
 
-.modal-btn:hover img, #clear-cart:hover img {
-    transform: scale(1.1);
+.modal-btn:hover img {
+    width: 50px;
+    height: 50px;
 }
 
 
@@ -188,11 +259,16 @@ li:hover {
     background-color: transparent;
 }
 
-hr{
-    border: none;
-    height: 0.625rem;
-    background-image: linear-gradient(45deg, #99ff00c0, #00ff33d5);
-    border-radius: 0.3125rem;
-    width: 25%;
-    margin: 0.3125rem auto 2.5rem auto;
+.close-btn {
+    font-size: 24px;
+    color: #aaa;
+    float: right;
+    margin: 10px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
