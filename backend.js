@@ -25,7 +25,7 @@ window.onload = function() {
                 kategoriak.add(termek.kategoria);
             });
 
-            const hely = document.getElementById("item-category");
+            const hely = document.getElementById("item-category-search");
 
             kategoriak.forEach(kategoria => {
                 let sor = document.createElement('option');
