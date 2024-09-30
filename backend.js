@@ -1,13 +1,13 @@
-function beolvasas(decodedText){
+function lekerdezes(recieved){
     fetch("termekek.php")
         .then(valasz => valasz.json())
         .then(valasz => {
             const hely = document.getElementById("item-list")
             valasz.forEach(termek => {
-                if (termek.id === decodedText) {
+                if (termek.id === recieved) {
                     let sor = document.createElement('li');
                     sor.innerHTML = `
-                        ${termek.id}/${termek.nev}
+                        ${termek.id}/${termek.nev} - ${termek.ar}
                     `;
                     hely.appendChild(sor);
                 }

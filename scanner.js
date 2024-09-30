@@ -12,7 +12,7 @@ function startQrScanner() {
                   qrbox: { width: 250, height: 250 }
               },
               (decodedText, decodedResult) => {
-                beolvasas(decodedText)
+                lekerdezes(decodedText)
               },
               (errorMessage) => {
                   // Parse error, ignore it.
