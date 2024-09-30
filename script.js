@@ -78,16 +78,12 @@ function filterItems() {
     }
 }
 
+
+
 // Keresés funkció
 function searchProduct() {
-    const searchInput = document.getElementById("search-input").value;
-    fetch("your_php_file.php", {  // Itt cseréld ki a PHP fájl nevére
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name: searchInput })
-    })
+    const searchInput = document.getElementById("search-input").value
+    fetch("termekek.php")
         .then(response => response.json())
         .then(data => {
             const resultsList = document.getElementById("search-results");
@@ -95,13 +91,18 @@ function searchProduct() {
 
             if (data.length > 0) {
                 data.forEach(product => {
-                    const li = document.createElement("li");
-                    li.textContent = `${product.nev} - ${product.ar} HUF`;
-                    resultsList.appendChild(li);
+                    if (product.nev === searchInput) {
+                        let li = document.createElement("li");
+                        li.innerHTML =`<p>${product.nev} - ${product.ar} HUF</p> <input class="form-check-input product-checkbox" type="checkbox" value="${product.id}">`
+                        resultsList.appendChild(li);
+                    }
                 });
             } else {
                 resultsList.innerHTML = "<li>Nincs találat!</li>";
             }
         })
-        .catch(error => console.error("Hiba:", error));
 };
+
+function AddToCart() {
+    Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked).forEach(item => {lekerdezes(item.value)})
+}

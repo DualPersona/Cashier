@@ -107,7 +107,7 @@ ul.active {
     }
 }
 
-li {
+#basket li, .navbar li {
     padding: 10px 0;
     border-bottom: 1px solid #dee2e6;
     display: flex;
@@ -116,7 +116,7 @@ li {
     transition: background-color 0.5s ease, transform 0.5s ease;
 }
 
-li:hover {
+#basket li:hover, .navbar li:hover {
     background-color: #f1f3f5;
     transform: translateX(8px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
