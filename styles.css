@@ -196,3 +196,12 @@ hr{
     width: 25%;
     margin: 0.3125rem auto 2.5rem auto;
 }
+
+.btn-close {
+    transition: none;
+}
+
+.btn-close:hover{
+    background: red;
+    box-shadow: none;
+}

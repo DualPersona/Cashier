@@ -6,6 +6,9 @@
 -- Létrehozás ideje: 2024. Sze 04. 16:20
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
+CREATE DATABASE IF NOT EXISTS kassza;
+
+USE kassza;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;

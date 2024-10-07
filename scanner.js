@@ -1,51 +1,58 @@
-function startQrScanner() {
-  Html5Qrcode.getCameras().then(devices => {
-      if (devices && devices.length) {
-          var cameraId = devices[0].id;
-          console.log(cameraId);
-
-          var html5QrCode = new Html5Qrcode("reader");
-          html5QrCode.start(
-              { facingMode: "environment" },
-              {
-                  fps: 10,
-                  qrbox: { width: 250, height: 250 }
-              },
-              (decodedText, decodedResult) => {
-                lekerdezes(decodedText)
-              },
-              (errorMessage) => {
-                  // Parse error, ignore it.
-              }
-          )/* .then(() => {
-              // Determine if the user is on a desktop
-              const isDesktop = /Windows|Macintosh|Linux/.test(navigator.userAgent);
-
-              if (isDesktop) {
-                  // Use setInterval to periodically check for the video element
-                  const checkVideoElement = setInterval(() => {
-                      const videoElement = document.querySelector("#reader video");
-                      if (videoElement) {
-                          videoElement.style.transform = "scaleX(-1)";
-                          clearInterval(checkVideoElement); // Stop checking once the video element is found
-                      }
-                  }, 100); // Check every 100 milliseconds
-              }
-          }).catch(err => {
-              console.log(`Start failed: ${err}`);
-          }); */
-      }
-  }).catch(err => {
-      console.error(`Camera error: ${err}`);
-  });
+let qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
+    let minEdgePercentage = 0.7; // 70%
+    let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
+    let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
+    if (qrboxSize <= 0) {
+        return {
+            width: 250,
+            height: 125
+    }}
+    else{
+        return {
+            width: qrboxSize,
+            height: qrboxSize/2
+    }}
 }
 
-startQrScanner()
-/* // Function to stop QR scanner
-function stopQrScanner() {
-  // Implement logic to stop the scanner, if needed
-  // html5QrCode.stop().then(() => { console.log("QR scanner stopped"); });
-}
-*/
 
-//console.log(`státusz:${html5QrCode.getState()}`)
+Html5Qrcode.getCameras().then(object => {
+    object.forEach(camera => {
+        if (camera.label.toLowerCase().includes("windows virtual camera")) {
+            console.log(camera.label)
+            VirtualCamera()
+        }
+    });
+})
+
+var html5QrCode = new Html5Qrcode("reader");
+
+document.getElementById('modal-scan').addEventListener('shown.bs.modal', function () {
+    html5QrCode.start(
+        { facingMode: "environment" },
+        {
+            fps: 20,
+            qrbox: qrboxFunction
+        },
+        (decodedText, decodedResult) => {
+          console.log(decodedText)
+          lekerdezes(decodedText)
+        },
+        (errorMessage) => {
+            // Parse error, ignore it.
+        }
+    )
+});
+
+  
+  /* // Function to stop QR scanner
+  function stopQrScanner() {
+    // Implement logic to stop the scanner, if needed
+    // html5QrCode.stop().then(() => { console.log("QR scanner stopped"); });
+  }
+  */
+  
+  //console.log(státusz:${html5QrCode.getState()})
+
+function VirtualCamera() {
+    alert("Beolvasáskor a kamera vízszintbe forgatása ajánlott!")
+}
