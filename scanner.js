@@ -15,13 +15,23 @@ let qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
 }
 
 
-Html5Qrcode.getCameras().then(object => {
-    object.forEach(camera => {
+Html5Qrcode.getCameras()
+.then(camera_array => {
+    camera_array.forEach(camera => {
         if (camera.label.toLowerCase().includes("windows virtual camera")) {
             console.log(camera.label)
             VirtualCamera()
         }
     });
+})
+.catch(err => {
+    if (err.name === "NotFoundError") {
+        alert("Nincs rendelkezésre álló kamera! Szkennelés funkció nem elérhető!")
+        DisableScanner()
+    }
+    else{
+        alert("Hiba lépett fel a kamera betöltése során!")
+    }
 })
 
 var html5QrCode = new Html5Qrcode("reader");
@@ -55,4 +65,9 @@ document.getElementById('modal-scan').addEventListener('shown.bs.modal', functio
 
 function VirtualCamera() {
     alert("Beolvasáskor a kamera vízszintbe forgatása ajánlott!")
+}
+
+function DisableScanner() {
+    let button = document.getElementById("modal-scan-button")
+    button.disabled = true
 }
