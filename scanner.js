@@ -37,31 +37,50 @@ Html5Qrcode.getCameras()
 var html5QrCode = new Html5Qrcode("reader");
 
 document.getElementById('modal-scan').addEventListener('shown.bs.modal', function () {
-    html5QrCode.start(
-        { facingMode: "environment" },
-        {
-            fps: 20,
-            qrbox: qrboxFunction
-        },
-        (decodedText, decodedResult) => {
-          console.log(decodedText)
-          lekerdezes(decodedText)
-        },
-        (errorMessage) => {
-            // Parse error, ignore it.
-        }
-    )
-});
+    //szkenner lehetséges állapotai: https://scanapp.org/html5-qrcode-docs/docs/apis/enums/Html5QrcodeScannerState
+    switch (html5QrCode.getState()) {
+        case 0:
+            //ismeretlen állapot
+            console.log("A szkenner állapota ismeretlen")
+            break;
+        case 1:
+            console.log("case 1 triggered")
+            //leállítva
+            html5QrCode.start(
+                { facingMode: "environment" },
+                {
+                    fps: 20,
+                    qrbox: qrboxFunction
+                },
+                (decodedText, decodedResult) => {
+                    VibrationFeedback()
+                    console.log(decodedResult)
+                    lekerdezes(decodedText)
+                    html5QrCode.pause()
+                    bootstrap.Modal.getInstance(document.getElementById("modal-scan")).hide() //szkenner ablak automatikus elrejtése sikeres beolvasás után
+                },
+                (errorMessage) => {
+                }
+            )
+            break;
+        
+        case 3:
+            console.log("case 3 triggered")
+            //megállítva/paused
+            html5QrCode.resume()
+            break;
 
-  
-  /* // Function to stop QR scanner
-  function stopQrScanner() {
-    // Implement logic to stop the scanner, if needed
-    // html5QrCode.stop().then(() => { console.log("QR scanner stopped"); });
-  }
-  */
-  
-  //console.log(státusz:${html5QrCode.getState()})
+        default:
+            console.log("A szkennernek nincs állapota")
+            break;
+    }
+})
+
+document.getElementById("modal-scan").addEventListener("hidden.bs.modal", function () {
+    if (html5QrCode.getState() !== 3) {
+        html5QrCode.pause()
+    }
+})
 
 function VirtualCamera() {
     alert("Beolvasáskor a kamera vízszintbe forgatása ajánlott!")

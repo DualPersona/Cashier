@@ -106,3 +106,9 @@ function searchProduct() {
 function AddToCart() {
     Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked).forEach(item => {lekerdezes(item.value)})
 }
+
+function VibrationFeedback() {
+    if ("vibrate" in navigator) {
+        navigator.vibrate(50);
+    }
+}
