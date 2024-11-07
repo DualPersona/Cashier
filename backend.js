@@ -2,12 +2,13 @@ function lekerdezes(recieved){
     fetch("termekek.php")
         .then(valasz => valasz.json())
         .then(valasz => {
-            const hely = document.getElementById("item-list")
+            const hely = document.getElementById("item-table")
             valasz.forEach(termek => {
                 if (termek.id === recieved) {
-                    let sor = document.createElement('li');
+                    let sor = document.createElement('tr');
                     sor.innerHTML = `
-                        ${termek.id}/${termek.nev} - ${termek.ar}
+                        <td>${termek.nev}</td>
+                        <td>${termek.ar}</td>
                     `;
                     hely.appendChild(sor);
                 }
