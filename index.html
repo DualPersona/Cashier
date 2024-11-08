@@ -155,7 +155,17 @@
     <hr>
     <div id="basket" class="d-flex flex-column align-items-center">
       <h2>Kosár</h2>
-      <ul class="list-group-numbered list-group-flush" id="item-table"></ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Mennyiség</th>
+            <th>Név</th>
+            <th>Ár(Ft)</th>
+          </tr>
+        </thead>
+        <tbody id="item-table">
+        </tbody>
+      </table>
       <button onclick="clearCart()" id="clear-cart">
         <img src="Anyagok/trash3-fill.svg" alt="kosár törlése">
       </button>
