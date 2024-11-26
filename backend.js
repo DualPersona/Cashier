@@ -5,6 +5,9 @@ function lekerdezes(recieved){
     }
     console.log("szereplo_termekek_tomb:")
     console.log(szereplo_termekek_tomb)
+    if (document.getElementById("thead").style.visibility == "hidden") {
+        document.getElementById("thead").style.visibility = "visible"
+    }
     fetch("termekek.php")
         .then(valasz => valasz.json())
         .then(valasz => {
@@ -27,7 +30,6 @@ function lekerdezes(recieved){
                 }
             })            
         })
-
 }
 
 function TermekBeszurasa(termek, hely){
