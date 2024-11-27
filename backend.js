@@ -5,9 +5,6 @@ function lekerdezes(recieved){
     }
     console.log("szereplo_termekek_tomb:")
     console.log(szereplo_termekek_tomb)
-    if (document.getElementById("thead").style.visibility == "hidden") {
-        document.getElementById("thead").style.visibility = "visible"
-    }
     fetch("termekek.php")
         .then(valasz => valasz.json())
         .then(valasz => {
@@ -33,13 +30,19 @@ function lekerdezes(recieved){
 }
 
 function TermekBeszurasa(termek, hely){
-    let sor = document.createElement('tr');
+    let sor = document.createElement('tr')
     sor.innerHTML = `
-        <td><input type="number" value="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség"></td>
+        <td><input type="number" value="1" min="0" step="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség" class="quantity-input"></td>
         <td>${termek.nev}</td>
-        <td>${termek.ar} Ft</td>
+        <td data-value="${termek.ar}">${termek.ar}</td>
+        <td><button class="button" onclick="this.closest('tr').remove()" id="${termek.nev}_torles">
+            <img src="Anyagok/x.svg" alt="kosár törlése">
+            </button>
+        <td>
     `;
-    hely.appendChild(sor);
+    hely.appendChild(sor)
+
+    quantityInputListener()
 }
 
 window.onload = function() {
@@ -60,4 +63,4 @@ window.onload = function() {
                 hely.appendChild(sor);
             });
         });
-}    
+}

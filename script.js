@@ -1,5 +1,58 @@
 let totalPrice = 0;
 
+const observer = new MutationObserver((mutationList, observer) => {
+    for (const mutation of mutationList) {
+        console.log(mutation)
+        updateTable()
+    }
+})
+const observerTarget = document.getElementById("item-table")
+const observerConfig = {attributes: true, childList: true, subtree: true, characterData: true}
+observer.observe(observerTarget, observerConfig)
+
+function quantityInputListener() {
+    document.querySelectorAll(".quantity-input").forEach(input => {
+        input.addEventListener('change', event => {
+            if (event.target.value < 0) {
+                event.target.value = 1
+                event.target.setAttribute('value', event.target.value)
+            }
+            else if (event.target.value == 0) {
+                removeItem(event.target)
+            }
+            else{
+                event.target.setAttribute('value', event.target.value)
+            }
+        })
+    })
+    //le kell újra futtatni minden alkalommal amikor egy termék hozzá van adva a táblához hogy frissítse a queryselectoros nodelistet és hozzácsatolja az eventlistenereket az új mennyiség inputokhoz is :)) úgyhogy szépen meghívjuk ezt a TermekBeszurasa() funkcióban
+}
+
+function updateHeader() {
+    if (document.getElementById("item-table").rows.length < 1) {
+        document.getElementById("thead").style.visibility = "hidden"
+    }
+    else {
+        document.getElementById("thead").style.visibility = "visible"
+    }
+}
+
+function updatePrices() {
+    totalPrice = 0
+    observer.disconnect()
+    for (let tabla_sor of document.getElementById("item-table").rows){
+        tabla_sor.cells[2].textContent = Number(tabla_sor.cells[2].dataset.value) * Number(tabla_sor.cells[0].firstChild.value)
+        totalPrice = totalPrice + Number(tabla_sor.cells[2].textContent)
+    }
+    document.getElementById("total-price").textContent = totalPrice
+    observer.observe(observerTarget, observerConfig)
+}
+
+function updateTable() {
+    updateHeader()
+    updatePrices()
+}
+
 function addItem() {
     const itemName = document.getElementById('item-name').value;
     const itemQuantity = parseInt(document.getElementById('item-quantity').value);
@@ -41,18 +94,8 @@ function applyCoupon() {
     }
 }
 
-function removeItem(element, itemTotal) {
-    element.parentElement.remove();
-    totalPrice -= itemTotal;
-    document.getElementById('total-price').textContent = totalPrice.toFixed(2);
-}
-
-function removeItem(button, itemTotal) {
-    const itemList = document.getElementById('item-table');
-    itemList.removeChild(button.parentElement);
-
-    totalPrice -= itemTotal;
-    document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+function removeItem(element) {
+    element.closest("tr").remove();
 }
 
 function clearCart() {
@@ -90,14 +133,18 @@ function searchProduct() {
 
             if (data.length > 0) {
                 data.forEach(product => {
-                    if (product.nev === searchInput) {
-                        let li = document.createElement("li");
-                        li.innerHTML =`<p>${product.nev} - ${product.ar} HUF</p> <input class="form-check-input product-checkbox" type="checkbox" value="${product.id}">`
-                        resultsList.appendChild(li);
+                    if (product.nev.includes(searchInput)) {
+                        let tr = document.createElement("tr");
+                        tr.innerHTML =`
+                            <td><input class="form-check-input product-checkbox" type="checkbox" value="${product.id}"></td>
+                            <td>${product.nev}</td>
+                            <td>${product.ar} Ft</td>
+                        `
+                        resultsList.appendChild(tr);
                     }
                 });
             } else {
-                resultsList.innerHTML = "<li>Nincs találat!</li>";
+                resultsList.innerHTML = "<tr><td>Nincs találat!</td></tr>";
             }
         })
 };
