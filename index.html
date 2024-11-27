@@ -32,7 +32,7 @@
         <div class="modal-body">
           <div class="item-entry">
             <label for="search-input">Termék neve:</label>
-            <input type="text" id="search-input" placeholder="Pl.: Alma">
+            <input type="text" id="search-input" placeholder="Pl.: Alma" oninput="searchProduct()">
           </div>
           <div class="item-entry">
             <label for="item-category-search">Kategória:</label>
@@ -41,11 +41,14 @@
               <option disabled selected hidden>kiválasztás</option>
             </select>
           </div>
-          <ul class="list-group-numbered" id="search-results"></ul>
+          <div id="search-results-wrapper">
+            <table>
+              <tbody id="search-results"></tbody>
+            </table>
+          </div>
         </div>
         <div class="modal-footer">
           <button onclick="AddToCart()">Hozzáadás</button>
-          <button onclick="searchProduct()">Keresés</button>
         </div>
       </div>
     </div>
@@ -155,8 +158,18 @@
     <hr>
     <div id="basket" class="d-flex flex-column align-items-center">
       <h2>Kosár</h2>
-      <ul class="list-group-numbered list-group-flush" id="item-list"></ul>
-      <button onclick="clearCart()" id="clear-cart">
+      <table>
+        <thead id="thead"style="visibility: hidden;">
+          <tr>
+            <th>Mennyiség</th>
+            <th>Név</th>
+            <th>Ár(Ft)</th>
+          </tr>
+        </thead>
+        <tbody id="item-table">
+        </tbody>
+      </table>
+      <button class="button" onclick="clearCart()" id="clear-cart">
         <img src="Anyagok/trash3-fill.svg" alt="kosár törlése">
       </button>
       <h2>Összesen:

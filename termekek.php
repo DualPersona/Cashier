@@ -4,7 +4,7 @@ require_once('kapcsolat.php');
 //metódus lekérdezése (GET)
 
 if($_SERVER["REQUEST_METHOD"] === "GET"){
-    $query = "SELECT nev, id, ar, kategoria
+    $query = "SELECT nev, id, ar, kategoria_id
     FROM termekek";  //változó tartalma SQL mondat
 
     //lekérdezés futtatása, eredményt a $result változóba helyezzük
@@ -19,7 +19,7 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
                 'id' => $row['id'],    //$row változóban a kulcsok a SELECT-ben megadott attribútumok
                 'nev' => $row['nev'],
                 'ar' => $row['ar'],
-                'kategoria' => $row['kategoria']
+                'kategoria_id' => $row['kategoria_id']
             ];
             $termekek[] = $termek;  //az elkészült tömböt az ingatlanok tömb végére teszi
         } //elkészült az összes adatát tartalmazó asszociatív töm, ami JSON-é alakítható
