@@ -133,7 +133,7 @@ function searchProduct() {
 
             if (data.length > 0) {
                 data.forEach(product => {
-                    if (product.nev.includes(searchInput)) {
+                    if (product.nev.toLowerCase().includes(searchInput.toLowerCase())) {
                         let tr = document.createElement("tr");
                         tr.innerHTML =`
                             <td><input class="form-check-input product-checkbox" type="checkbox" value="${product.id}"></td>
