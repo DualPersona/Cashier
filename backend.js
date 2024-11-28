@@ -33,7 +33,7 @@ function TermekBeszurasa(termek, hely){
     let sor = document.createElement('tr')
     sor.innerHTML = `
         <td><input type="number" value="1" min="0" step="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség" class="quantity-input"></td>
-        <td>${termek.nev}</td>
+        <td data-value="${termek.id}">${termek.nev}</td>
         <td data-value="${termek.ar}">${termek.ar}</td>
         <td><button class="button" onclick="this.closest('tr').remove()" id="${termek.nev}_torles">
             <img src="Anyagok/x.svg" alt="kosár törlése">
@@ -63,4 +63,12 @@ window.onload = function() {
                 hely.appendChild(sor);
             });
         });
+}
+
+function cartExport(){
+    const adattomb = []
+    for (let tabla_sor of document.getElementById("item-table").rows){
+        adattomb.push({Darabszam: tabla_sor.cells[0].value, termekID: tabla_sor.cells[1].dataset.value})
+    }
+
 }
