@@ -71,4 +71,17 @@ function cartExport(){
         adattomb.push({Darabszam: tabla_sor.cells[0].firstElementChild.value, termekID: tabla_sor.cells[1].dataset.value})
     }
 
+    fetch('export.php', {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(adattomb)})
+    .then(valasz => {
+        if (!valasz.ok) {
+            throw new Error('Nincs válasz')
+        }
+        return valasz.json()
+    })
+    .then(adat => {
+        console.log(adat)
+    })
+    .catch(error => {
+        alert('Hiba történt: ', error)
+    })
 }

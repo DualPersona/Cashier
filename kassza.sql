@@ -22,13 +22,27 @@ CREATE TABLE IF NOT EXISTS kategoriak (
 
 -- Termékek tábla létrehozása
 CREATE TABLE IF NOT EXISTS termekek (
-  id BIGINT(20) NOT NULL PRIMARY KEY, -- Egyedi azonosító
+  id BIGINT NOT NULL PRIMARY KEY, -- Egyedi azonosító
   nev VARCHAR(255) DEFAULT NULL,      -- Termék neve
-  ar INT(11) DEFAULT NULL,            -- Termék ára
+  ar INT DEFAULT NULL,            -- Termék ára
   kategoria_id INT,                   -- Idegen kulcs a kategoriak táblára
   FOREIGN KEY (kategoria_id) REFERENCES kategoriak(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
+
+--csak arra használjuk igazából hogy egy unique/még nem használt
+CREATE TABLE IF NOT EXISTS export (
+  exportID BIGINT NOT NULL,
+  Datum DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+CREATE TABLE IF NOT EXISTS import (
+  exportID BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  termekID BIGINT NOT NULL,
+  mennyiseg INT NOT NULL,
+  FOREIGN KEY (exportID) REFERENCES export(exportID),
+  FOREIGN KEY (termekID) REFERENCES termekek(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 -- Adatok hozzáadása a kategoriak táblához
 INSERT INTO kategoriak (nev) VALUES 
 ('Italok'),
