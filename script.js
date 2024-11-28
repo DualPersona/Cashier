@@ -41,7 +41,7 @@ function updatePrices() {
     totalPrice = 0
     observer.disconnect()
     for (let tabla_sor of document.getElementById("item-table").rows){
-        tabla_sor.cells[2].textContent = Number(tabla_sor.cells[2].dataset.value) * Number(tabla_sor.cells[0].firstChild.value)
+        tabla_sor.cells[2].textContent = Number(tabla_sor.cells[2].dataset.value) * Number(tabla_sor.cells[0].firstElementChild.value)
         totalPrice = totalPrice + Number(tabla_sor.cells[2].textContent)
     }
     document.getElementById("total-price").textContent = totalPrice

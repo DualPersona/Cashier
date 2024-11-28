@@ -68,7 +68,7 @@ window.onload = function() {
 function cartExport(){
     const adattomb = []
     for (let tabla_sor of document.getElementById("item-table").rows){
-        adattomb.push({Darabszam: tabla_sor.cells[0].value, termekID: tabla_sor.cells[1].dataset.value})
+        adattomb.push({Darabszam: tabla_sor.cells[0].firstElementChild.value, termekID: tabla_sor.cells[1].dataset.value})
     }
 
 }
