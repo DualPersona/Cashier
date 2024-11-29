@@ -32,12 +32,12 @@ CREATE TABLE IF NOT EXISTS termekek (
 
 --csak arra használjuk igazából hogy egy unique/még nem használt
 CREATE TABLE IF NOT EXISTS export (
-  exportID BIGINT NOT NULL,
+  exportID BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   Datum DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 CREATE TABLE IF NOT EXISTS import (
-  exportID BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  exportID BIGINT NOT NULL,
   termekID BIGINT NOT NULL,
   mennyiseg INT NOT NULL,
   FOREIGN KEY (exportID) REFERENCES export(exportID),
