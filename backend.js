@@ -79,7 +79,7 @@ function cartExport(){
         return valasz.json()
     })
     .then(adat => {
-        console.log(adat)
+        new QRCode(document.getElementById("qrcode"), adat.uzenet);
     })
     .catch(error => {
         alert('Hiba történt: ', error)

@@ -88,6 +88,22 @@
   <!-- importálás modal ablakja  -->
 
   <!-- exportálás modal ablakja -->
+  <div class="modal fade" id="modal-export-basket">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Kosár megosztása</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>A kapott kódot kérlek mutasd meg a kasszásnak!</h6>
+          <div id="export-qrcode">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- kupon érvényesítés modal ablakja -->
   <div class="modal fade" id="modal-coupon">
@@ -190,6 +206,7 @@
     crossorigin="anonymous"></script>
   <script src="scanner.js"></script>
   <script src="script.js"></script>
+  <script src="Modulok/qrcode.js"></script>
   <script src="backend.js"></script>
 </body>
 
