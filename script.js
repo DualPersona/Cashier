@@ -150,7 +150,7 @@ function searchProduct() {
 };
 
 function AddToCart() {
-    Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked).forEach(item => {lekerdezes(item.value)})
+    Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked).forEach(item => {lekerdezes(item.value, 1)})
 }
 
 function VibrationFeedback() {

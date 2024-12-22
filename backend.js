@@ -1,4 +1,4 @@
-function lekerdezes(recieved){
+function lekerdezes(recieved, mennyiseg){
     let szereplo_termekek_tomb = []
     for (let tabla_sor of document.getElementById("item-table").rows){
         szereplo_termekek_tomb.push(tabla_sor.cells[1].textContent)
@@ -17,22 +17,22 @@ function lekerdezes(recieved){
                                 document.getElementById(`${termek.nev}_mennyiség`).value++
                             }
                             else{
-                                TermekBeszurasa(termek, hely)
+                                TermekBeszurasa(termek, hely, mennyiseg)
                             }
                         }
                     }
                     else{
-                        TermekBeszurasa(termek, hely)
+                        TermekBeszurasa(termek, hely, mennyiseg)
                     }
                 }
             })            
         })
 }
 
-function TermekBeszurasa(termek, hely){
+function TermekBeszurasa(termek, hely, mennyiseg){
     let sor = document.createElement('tr')
     sor.innerHTML = `
-        <td><input type="number" value="1" min="0" step="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség" class="quantity-input"></td>
+        <td><input type="number" value="${mennyiseg}" min="0" step="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség" class="quantity-input"></td>
         <td data-value="${termek.id}">${termek.nev}</td>
         <td data-value="${termek.ar}">${termek.ar}</td>
         <td><button class="button" onclick="this.closest('tr').remove()" id="${termek.nev}_torles">
@@ -84,4 +84,16 @@ function cartExport(){
     .catch(error => {
         alert('Hiba történt: ', error)
     })
+}
+
+function cartImport(exportID){
+    fetch("import.php")
+    .then(valasz => valasz.json())
+    .then(adat =>
+        adat.forEach(item => {
+            if (item.importID == exportID) {
+                lekerdezes(item.termekID, item.mennyiseg)
+            }
+        })
+    )
 }
