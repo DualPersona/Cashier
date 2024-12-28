@@ -79,6 +79,7 @@ function cartExport(){
         return valasz.json()
     })
     .then(adat => {
+        document.getElementById("export-qrcode").innerHTML = ""
         new QRCode(document.getElementById("export-qrcode"), String(adat.uzenet));
     })
     .catch(error => {
@@ -87,6 +88,7 @@ function cartExport(){
 }
 
 function cartImport(exportID){
+    document.querySelector("#item-table").innerHTML = ""
     fetch("import.php")
     .then(valasz => valasz.json())
     .then(adat =>
