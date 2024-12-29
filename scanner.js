@@ -55,7 +55,7 @@ document.getElementById('modal-scan').addEventListener('shown.bs.modal', functio
                 (decodedText, decodedResult) => {
                     VibrationFeedback()
                     console.log(decodedResult)
-                    lekerdezes(decodedText)
+                    lekerdezes(decodedText, 1)
                     html5QrCode.pause()
                     bootstrap.Modal.getInstance(document.getElementById("modal-scan")).hide() //szkenner ablak automatikus elrejtése sikeres beolvasás után
                 },
@@ -90,3 +90,23 @@ function DisableScanner() {
     let button = document.getElementById("modal-scan-button")
     button.disabled = true
 }
+
+var importScanner = new Html5Qrcode('import-reader')
+
+document.getElementById('modal-import-basket').addEventListener('shown.bs.modal', function () {
+    importScanner.start({ facingMode: "environment" },
+        {
+            fps: 20,
+            qrbox: qrboxFunction
+        },
+        (decodedText, decodedResult) => {
+            VibrationFeedback()
+            console.log(decodedResult)
+            cartImport(decodedText)
+            importScanner.stop()
+            bootstrap.Modal.getInstance(document.getElementById("modal-import-basket")).hide() //szkenner ablak automatikus elrejtése sikeres beolvasás után
+        },
+        (errorMessage) => {
+        })
+})
+

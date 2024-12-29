@@ -227,3 +227,16 @@ hr{
   #search-results-wrapper::-webkit-scrollbar-thumb:hover {
     background-color: #00ff33d5;
 }
+
+#export-qrcode {
+    margin: auto;
+    display: inline-block;
+    padding: 0.9375rem;
+    color-scheme: only light;
+    border-radius: 0.3125rem;
+    background-color: #ffffff;
+}
+
+#export-qrcode img {
+    color-scheme: only light;
+}
