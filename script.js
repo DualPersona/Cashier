@@ -172,3 +172,15 @@ function VibrationFeedback() {
         navigator.vibrate(50);
     }
 }
+
+document.getElementById("filter-type-name").addEventListener("change", function() {
+    if (this.checked) {
+        document.getElementById("filter-type-category").removeAttribute("checked")
+    }
+})
+
+document.getElementById("filter-type-category").addEventListener("change", function() {
+    if (this.checked) {
+        document.getElementById("filter-type-name").removeAttribute("checked")
+    }
+})

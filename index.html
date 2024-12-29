@@ -47,7 +47,13 @@
             </table>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer justify-content-between">
+          <div id="filter-type">
+            <input type="radio" class="btn-check" name="filter-type" id="filter-type-name" autocomplete="off" checked>
+            <label class="btn filter-button" for="filter-type-name">Név</label>
+            <input type="radio" class="btn-check" name="filter-type" id="filter-type-category" autocomplete="off">
+            <label class="btn filter-button" for="filter-type-category">Kategória</label>
+          </div>
           <button onclick="AddToCart()">Hozzáadás</button>
         </div>
       </div>

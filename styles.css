@@ -240,3 +240,21 @@ hr{
 #export-qrcode img {
     color-scheme: only light;
 }
+
+#filter-type {
+    display: flex;
+    border-radius: 3.125rem;
+    background-color: #ffffff;
+    color-scheme: only light;
+    overflow-x: hidden;
+    min-width: 12.5rem;
+}
+
+.filter-button {
+    width: 100%;
+    border-radius: 3.125rem;
+}
+
+.btn-check:checked + .filter-button {
+    background: linear-gradient(45deg, #99ff00c0, #00ff33d5);
+}
