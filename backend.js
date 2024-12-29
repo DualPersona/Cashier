@@ -80,7 +80,12 @@ function cartExport(){
     })
     .then(adat => {
         document.getElementById("export-qrcode").innerHTML = ""
-        new QRCode(document.getElementById("export-qrcode"), String(adat.uzenet));
+        new QRCode(document.getElementById("export-qrcode"), {
+            text: String(adat.uzenet),
+            width: 200,
+            height: 200,
+            correctLevel: QRCode.CorrectLevel.M
+        });
     })
     .catch(error => {
         alert('Hiba történt: ', error)
