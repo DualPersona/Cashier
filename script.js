@@ -120,8 +120,6 @@ function filterItems() {
     }
 }
 
-
-
 // Keresés funkció
 function searchProduct() {
     const searchInput = document.getElementById("search-input").value
@@ -129,9 +127,20 @@ function searchProduct() {
         .then(response => response.json())
         .then(data => {
             const resultsList = document.getElementById("search-results");
-            resultsList.innerHTML = ""; // Kiürítjük a korábbi eredményeket
+            resultsList.innerHTML = "";
 
             if (data.length > 0) {
+                data.sort((a, b) => {
+                    const aStartsWith = a.nev.toLowerCase().startsWith(searchInput) ? 0 : 1;
+                    const bStartsWith = b.nev.toLowerCase().startsWith(searchInput) ? 0 : 1;
+
+                    if (aStartsWith === bStartsWith) {
+
+                        return a.nev.localeCompare(b.nev);
+                    }
+
+                    return aStartsWith - bStartsWith;
+                });
                 data.forEach(product => {
                     if (product.nev.toLowerCase().includes(searchInput.toLowerCase())) {
                         let tr = document.createElement("tr");
@@ -148,6 +157,10 @@ function searchProduct() {
             }
         })
 };
+
+document.getElementById('modal-item-search').addEventListener('shown.bs.modal', function () {
+    searchProduct()
+})
 
 function AddToCart() {
     Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked).forEach(item => {lekerdezes(item.value, 1)})
