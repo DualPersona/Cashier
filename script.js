@@ -151,9 +151,10 @@ function searchProduct() {
                         `
                         resultsList.appendChild(tr);
                     }
-                });
-            } else {
+else {
                 resultsList.innerHTML = "<tr><td>Nincs találat!</td></tr>";
+            }
+                });
             }
         })
 };
