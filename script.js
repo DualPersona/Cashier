@@ -176,11 +176,21 @@ function VibrationFeedback() {
 document.getElementById("filter-type-name").addEventListener("change", function() {
     if (this.checked) {
         document.getElementById("filter-type-category").removeAttribute("checked")
+        document.getElementById("item-entry").innerHTML = ""
+        document.getElementById("item-entry").innerHTML = `
+        <input type="text" id="search-input" placeholder="Termék neve" oninput="searchProduct()"></input>
+        `
     }
 })
 
 document.getElementById("filter-type-category").addEventListener("change", function() {
     if (this.checked) {
         document.getElementById("filter-type-name").removeAttribute("checked")
+        document.getElementById("item-entry").innerHTML = ""
+        document.getElementById("item-entry").innerHTML = `
+        <select id="item-category-search" class="form-select form-select-lg" aria-label="Large select example">
+            <option disabled selected hidden>Kiválasztás</option>
+        </select>
+        `
     }
 })

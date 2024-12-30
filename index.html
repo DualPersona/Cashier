@@ -30,16 +30,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="item-entry">
-            <label for="search-input">Termék neve:</label>
-            <input type="text" id="search-input" placeholder="Pl.: Alma" oninput="searchProduct()">
-          </div>
-          <div class="item-entry">
-            <label for="item-category-search">Kategória:</label>
-            <br>
-            <select id="item-category-search">
-              <option disabled selected hidden>kiválasztás</option>
-            </select>
+          <div id="item-entry">
+            <input type="text" id="search-input" placeholder="Termék neve" oninput="searchProduct()">
           </div>
           <div id="search-results-wrapper">
             <table>
