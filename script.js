@@ -6,7 +6,7 @@ const observer = new MutationObserver((mutationList, observer) => {
         updateTable()
     }
 })
-const observerTarget = document.getElementById("item-table")
+const observerTarget = document.getElementById("item-tbody")
 const observerConfig = {attributes: true, childList: true, subtree: true, characterData: true}
 observer.observe(observerTarget, observerConfig)
 
@@ -28,19 +28,20 @@ function quantityInputListener() {
     //le kell újra futtatni minden alkalommal amikor egy termék hozzá van adva a táblához hogy frissítse a queryselectoros nodelistet és hozzácsatolja az eventlistenereket az új mennyiség inputokhoz is :)) úgyhogy szépen meghívjuk ezt a TermekBeszurasa() funkcióban
 }
 
-function updateHeader() {
-    if (document.getElementById("item-table").rows.length < 1) {
-        document.getElementById("thead").style.visibility = "hidden"
+function renderTable() {
+    if (document.getElementById("item-tbody").rows.length < 1) {
+        document.getElementById("item-table").style.visibility = "hidden"
+
     }
     else {
-        document.getElementById("thead").style.visibility = "visible"
+        document.getElementById("item-table").style.visibility = "visible"
     }
 }
 
 function updatePrices() {
     totalPrice = 0
     observer.disconnect()
-    for (let tabla_sor of document.getElementById("item-table").rows){
+    for (let tabla_sor of document.getElementById("item-tbody").rows){
         tabla_sor.cells[2].textContent = Number(tabla_sor.cells[2].dataset.value) * Number(tabla_sor.cells[0].firstElementChild.value)
         totalPrice = totalPrice + Number(tabla_sor.cells[2].textContent)
     }
@@ -49,7 +50,7 @@ function updatePrices() {
 }
 
 function updateTable() {
-    updateHeader()
+    renderTable()
     updatePrices()
 }
 
@@ -60,7 +61,7 @@ function addItem() {
     const itemCategory = document.getElementById('item-category').value;
 
     if (itemName && itemQuantity > 0 && !isNaN(itemPrice) && itemPrice > 0) {
-        const itemList = document.getElementById('item-table');
+        const itemList = document.getElementById('item-tbody');
         const newItem = document.createElement('tr');
         const itemTotal = itemQuantity * itemPrice;
 
@@ -99,7 +100,7 @@ function removeItem(element) {
 }
 
 function clearCart() {
-    const itemList = document.getElementById('item-table');
+    const itemList = document.getElementById('item-tbody');
     itemList.innerHTML = '';
 
     totalPrice = 0;
@@ -108,7 +109,7 @@ function clearCart() {
 
 function filterItems() {
     const filterCategory = document.getElementById('filter-category').value;
-    const items = document.getElementById('item-table').getElementsByTagName('li');
+    const items = document.getElementById('item-tbody').getElementsByTagName('li');
 
     for (let i = 0; i < items.length; i++) {
         const itemCategory = items[i].getAttribute('data-category');

@@ -1,6 +1,6 @@
 function lekerdezes(recieved, mennyiseg){
     let szereplo_termekek_tomb = []
-    for (let tabla_sor of document.getElementById("item-table").rows){
+    for (let tabla_sor of document.getElementById("item-tbody").rows){
         szereplo_termekek_tomb.push(tabla_sor.cells[1].textContent)
     }
     console.log("szereplo_termekek_tomb:")
@@ -8,7 +8,7 @@ function lekerdezes(recieved, mennyiseg){
     fetch("termekek.php")
         .then(valasz => valasz.json())
         .then(valasz => {
-            const hely = document.getElementById("item-table")
+            const hely = document.getElementById("item-tbody")
             valasz.forEach(termek => {
                 if (termek.id === recieved) {
                     if (szereplo_termekek_tomb.length > 0) {
@@ -35,10 +35,10 @@ function TermekBeszurasa(termek, hely, mennyiseg){
         <td><input type="number" value="${mennyiseg}" min="0" step="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség" class="quantity-input"></td>
         <td data-value="${termek.id}">${termek.nev}</td>
         <td data-value="${termek.ar}">${termek.ar}</td>
-        <td><button class="button" onclick="this.closest('tr').remove()" id="${termek.nev}_torles">
-            <img src="Anyagok/x.svg" alt="kosár törlése">
+        <td><button class="button item-remove" onclick="this.closest('tr').remove()" id="${termek.nev}_torles">
+            <img src="Anyagok/x-circle.svg" alt="kosár törlése">
             </button>
-        <td>
+        </td>
     `;
     hely.appendChild(sor)
 
@@ -67,7 +67,7 @@ window.onload = function() {
 
 function cartExport(){
     const adattomb = []
-    for (let tabla_sor of document.getElementById("item-table").rows){
+    for (let tabla_sor of document.getElementById("item-tbody").rows){
         adattomb.push({Darabszam: tabla_sor.cells[0].firstElementChild.value, termekID: tabla_sor.cells[1].dataset.value})
     }
 
@@ -93,7 +93,7 @@ function cartExport(){
 }
 
 function cartImport(exportID){
-    document.querySelector("#item-table").innerHTML = ""
+    document.querySelector("#item-tbody").innerHTML = ""
     fetch("import.php")
     .then(valasz => valasz.json())
     .then(adat =>

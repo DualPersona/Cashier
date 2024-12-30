@@ -57,7 +57,7 @@ input[type="number"]:focus {
 }
 
 button {
-    padding: 12px 25px;
+    padding: 10px 10px;
     background: linear-gradient(45deg, #99ff00c0, #00ff33d5);
     color: #fff;
     border: none;
@@ -281,4 +281,13 @@ hr{
     border-color: #00ff55;
     box-shadow: 0 0 0.625rem rgba(123, 255, 0, 0.855);
     outline: none;
+}
+
+.item-remove {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.quantity-input {
+    max-width: 75px;
 }
