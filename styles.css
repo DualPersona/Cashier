@@ -40,6 +40,7 @@ input[type="number"] {
     border-radius: 8px;
     box-sizing: border-box;
     box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 input[type="text"]:hover,
@@ -47,6 +48,7 @@ input[type="number"]:hover {
     border-color: #00ff55;
     outline: none;
     box-shadow: 0 0 0.625rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 input[type="text"]:focus,
@@ -54,6 +56,26 @@ input[type="number"]:focus {
     border-color: #00ff55;
     outline: none;
     box-shadow: 0 0 0 0.025rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-check-input:hover {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0.625rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-check-input:focus {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0 0.025rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-check-input:checked {
+    background-color: #00ff55;
+    border-color: #00ff55;
 }
 
 button {
@@ -156,24 +178,22 @@ ul.active {
     border-radius: 50px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
     .navbar {
         position: sticky !important;
         top: 25%;
-        bottom: 25%;
         z-index: 1050;
         height: auto;
     }
 }
   
-@media (max-width: 991.99px) {
+@media (max-width: 767.99px) {
     body{
         margin-bottom: 6.25rem;
     }
 
     .navbar {
         bottom: 0;
-        height: 6.25rem;
         width: 100%;
         position: fixed !important;
         z-index: 1050;
@@ -249,13 +269,30 @@ hr{
     border-radius: 3.125rem;
     background-color: #ffffff;
     color-scheme: only light;
-    overflow-x: hidden;
     min-width: 12.5rem;
+}
+
+#filter-type label {
+    border-color: transparent;
+}
+
+#filter-type:hover {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0.625rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 .filter-button {
     width: 100%;
     border-radius: 3.125rem;
+}
+
+.filter-button:hover {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0 0.09rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 .btn-check:checked + .filter-button {
