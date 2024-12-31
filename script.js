@@ -209,6 +209,7 @@ function VibrationFeedback() {
 
 document.getElementById("filter-type-name").addEventListener("change", function() {
     if (this.checked) {
+VibrationFeedback()
         document.getElementById("filter-type-category").removeAttribute("checked")
         document.getElementById("search-results").innerHTML = ""
         document.getElementById("item-entry").innerHTML = ""
@@ -221,6 +222,7 @@ document.getElementById("filter-type-name").addEventListener("change", function(
 
 document.getElementById("filter-type-category").addEventListener("change", function() {
     if (this.checked) {
+VibrationFeedback()
         document.getElementById("filter-type-name").removeAttribute("checked")
         document.getElementById("search-results").innerHTML = ""
         document.getElementById("item-entry").innerHTML = ""
