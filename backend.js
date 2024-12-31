@@ -12,13 +12,16 @@ function lekerdezes(recieved, mennyiseg){
             valasz.forEach(termek => {
                 if (termek.id === recieved) {
                     if (szereplo_termekek_tomb.length > 0) {
+                        let found = false;
                         for (let szereplo_termek of szereplo_termekek_tomb){
                             if (szereplo_termek === termek.nev) {
                                 document.getElementById(`${termek.nev}_mennyiség`).value++
+                                found = true;
+                                break;
                             }
-                            else{
-                                TermekBeszurasa(termek, hely, mennyiseg)
-                            }
+                        }
+                        if (!found) {
+                            TermekBeszurasa(termek, hely, mennyiseg);
                         }
                     }
                     else{
@@ -45,21 +48,16 @@ function TermekBeszurasa(termek, hely, mennyiseg){
     quantityInputListener()
 }
 
-window.onload = function() {
-    fetch("termekek.php")
+function renderCategories() {
+    fetch("kategoriak.php")
         .then(valasz => valasz.json())
         .then(valasz => {
-            const kategoriak = new Set();
-            valasz.forEach(termek => {
-                kategoriak.add(termek.kategoria);
-            });
+            valasz.forEach(kategoria => {
+                const hely = document.getElementById("item-category-search");
 
-            const hely = document.getElementById("item-category-search");
-
-            kategoriak.forEach(kategoria => {
                 let sor = document.createElement('option');
-                sor.value = kategoria;
-                sor.innerHTML = kategoria;
+                sor.value = kategoria.id;
+                sor.innerHTML = kategoria.nev;
                 hely.appendChild(sor);
             });
         });

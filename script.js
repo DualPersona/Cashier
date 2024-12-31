@@ -122,50 +122,83 @@ function filterItems() {
 }
 
 // Keresés funkció
-function searchProduct() {
-    const searchInput = document.getElementById("search-input").value
+function searchProduct(isSearchMethodName) {
+    let hasResults = false
+
+    const place = document.getElementById("search-results")
+    place.innerHTML = ""
     fetch("termekek.php")
         .then(response => response.json())
         .then(data => {
-            const resultsList = document.getElementById("search-results");
-            resultsList.innerHTML = "";
-
             if (data.length > 0) {
-                data.sort((a, b) => {
-                    const aStartsWith = a.nev.toLowerCase().startsWith(searchInput) ? 0 : 1;
-                    const bStartsWith = b.nev.toLowerCase().startsWith(searchInput) ? 0 : 1;
-
-                    if (aStartsWith === bStartsWith) {
-
-                        return a.nev.localeCompare(b.nev);
-                    }
-
-                    return aStartsWith - bStartsWith;
-                });
-                data.forEach(product => {
-                    if (product.nev.toLowerCase().includes(searchInput.toLowerCase())) {
-                        let tr = document.createElement("tr");
-                        tr.innerHTML =`
-                            <td><input class="form-check-input product-checkbox" type="checkbox" value="${product.id}"></td>
-                            <td>${product.nev}</td>
-                            <td>${product.ar} Ft</td>
-                        `
-                        resultsList.appendChild(tr);
+                if (isSearchMethodName === true) {
+                    const searchInput = document.getElementById("search-input").value
+                
+                    data.sort((a, b) => {
+                        const aStartsWith = a.nev.toLowerCase().startsWith(searchInput) ? 0 : 1;
+                        const bStartsWith = b.nev.toLowerCase().startsWith(searchInput) ? 0 : 1;
+                        
+                        if (aStartsWith === bStartsWith) {
+                            return a.nev.localeCompare(b.nev);
+                        }
+                        
+                        return aStartsWith - bStartsWith;
+                    });
+                    data.forEach(product => {
+                        if (product.nev.toLowerCase().includes(searchInput.toLowerCase())) {
+                            searchProductResultRender(product, place)
+                            hasResults = true
+                        }
+                    });
+                }
+                else {
+                    if (isSearchMethodName === false) {
+                        data.forEach(product => {
+                            if (product.kategoria_id === document.getElementById("item-category-search").value) {
+                                searchProductResultRender(product, place)
+                                hasResults = true
+                            }
+                        });
                     }
                     else {
-                        resultsList.innerHTML = "<tr><td>Nincs találat!</td></tr>";
+                        alert("rendszer hiba: A funkció nem kapott érvényes keresési módszer típust!")
                     }
-                });
+                }
+            }
+            else {
+                place.innerHTML = "<tr><td>Nincs találat!</td></tr>"
+            }
+        })
+        .finally(() => {
+            if (hasResults === false) {
+                place.innerHTML = "<tr><td>Nincs találat!</td></tr>"
             }
         })
 };
+    
+function searchProductResultRender(product, place) {
+        
+    let tr = document.createElement("tr");
+    tr.innerHTML =`
+        <td><input class="form-check-input product-checkbox" type="checkbox" value="${product.id}"></td>
+        <td>${product.nev}</td>
+        <td>${product.ar} Ft</td>
+    `
+    place.appendChild(tr);
+}
 
-document.getElementById('modal-item-search').addEventListener('shown.bs.modal', function () {
-    searchProduct()
+document.getElementById('modal-item-search').addEventListener('show.bs.modal', function () {
+    if (document.getElementById("filter-type-name").checked) {
+        searchProduct(true)
+    }
 })
 
-function AddToCart() {
-    Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked).forEach(item => {lekerdezes(item.value, 1)})
+async function AddToCart() {
+    const filteredItems = Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked)
+
+    for (const item of filteredItems) {
+        await lekerdezes(item.value, 1)
+    }
 }
 
 function VibrationFeedback() {
@@ -177,21 +210,25 @@ function VibrationFeedback() {
 document.getElementById("filter-type-name").addEventListener("change", function() {
     if (this.checked) {
         document.getElementById("filter-type-category").removeAttribute("checked")
+        document.getElementById("search-results").innerHTML = ""
         document.getElementById("item-entry").innerHTML = ""
         document.getElementById("item-entry").innerHTML = `
-        <input type="text" id="search-input" placeholder="Termék neve" oninput="searchProduct()"></input>
+        <input type="text" id="search-input" placeholder="Termék neve" oninput="searchProduct(true)"></input>
         `
+        searchProduct(true)
     }
 })
 
 document.getElementById("filter-type-category").addEventListener("change", function() {
     if (this.checked) {
         document.getElementById("filter-type-name").removeAttribute("checked")
+        document.getElementById("search-results").innerHTML = ""
         document.getElementById("item-entry").innerHTML = ""
         document.getElementById("item-entry").innerHTML = `
-        <select id="item-category-search" class="form-select form-select-lg" aria-label="Large select example">
+        <select id="item-category-search" class="form-select form-select-lg" aria-label="Large select example" onchange="searchProduct(false)">
             <option disabled selected hidden>Kiválasztás</option>
         </select>
         `
+        renderCategories()
     }
 })

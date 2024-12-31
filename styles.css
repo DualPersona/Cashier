@@ -62,8 +62,9 @@ input[type="number"]:focus {
 .form-check-input:hover {
     border-color: #00ff55;
     outline: none;
-    box-shadow: 0 0 0.625rem rgba(123, 255, 0, 0.855);
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    box-shadow: 0 0 0.2rem rgba(123, 255, 0, 0.855);
+    transform: scale(1.15);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, transform 0.15s ease-in-out;
 }
 
 .form-check-input:focus {
@@ -144,7 +145,6 @@ ul.active {
 #basket li:hover, .navbar li:hover {
     background-color: #f1f3f5;
     transform: translateX(8px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .modal-btn, #clear-cart {
@@ -328,3 +328,30 @@ hr{
 .quantity-input {
     max-width: 75px;
 }
+
+#item-category-search option:hover {
+    background-color: #00ff55;
+}
+
+/* desktop size */
+#search-results input[type="checkbox"] {
+    width: 2vw;
+    height: 2vw;
+    margin-top: 0;
+}
+
+/* mobile size */
+@media (max-width: 768px) {
+    #search-results input[type="checkbox"] {
+      width: 7vw;
+      height: 7vw;
+    }
+  }
+  
+  /* tablet size*/
+  @media (max-width: 1024px) and (min-width: 769px) {
+    #search-results input[type="checkbox"] {
+      width: 5vw;
+      height: 5vw;
+    }
+  }
