@@ -26,7 +26,7 @@ Html5Qrcode.getCameras()
 })
 .catch(err => {
     if (err.name === "NotFoundError") {
-        alert("Nincs rendelkezésre álló kamera! Szkennelés funkció nem elérhető!")
+        //alert("Nincs rendelkezésre álló kamera! Szkennelés funkció nem elérhető!")
         DisableScanner()
     }
     else{

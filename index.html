@@ -30,24 +30,22 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="item-entry">
-            <label for="search-input">Termék neve:</label>
-            <input type="text" id="search-input" placeholder="Pl.: Alma" oninput="searchProduct()">
-          </div>
-          <div class="item-entry">
-            <label for="item-category-search">Kategória:</label>
-            <br>
-            <select id="item-category-search">
-              <option disabled selected hidden>kiválasztás</option>
-            </select>
+          <div id="item-entry">
+            <input type="text" id="search-input" placeholder="Termék neve" oninput="searchProduct(true)">
           </div>
           <div id="search-results-wrapper">
-            <table>
-              <tbody id="search-results"></tbody>
+            <table class="table align-middle">
+              <tbody id="search-results" class="table-hover"></tbody>
             </table>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer justify-content-between">
+          <div id="filter-type">
+            <input type="radio" class="btn-check" name="filter-type" id="filter-type-name" autocomplete="off" checked>
+            <label class="btn filter-button" for="filter-type-name">Név</label>
+            <input type="radio" class="btn-check" name="filter-type" id="filter-type-category" autocomplete="off">
+            <label class="btn filter-button" for="filter-type-category">Kategória</label>
+          </div>
           <button onclick="AddToCart()">Hozzáadás</button>
         </div>
       </div>
@@ -142,42 +140,39 @@
   <!-- modal ablakok vége -->
 
   <!-- toolbar gombok -->
-  <nav
-    class="navbar navbar-expand-lg navbar-light bg-light align-self-end align-self-lg-center mx-auto position-relative">
-    <div class="container-fluid d-flex flex-lg-column flex-row p-0">
-      <div class="d-flex w-100 h-100" id="navbarNav">
-        <ul class="navbar-nav flex-lg-column flex-row w-100 justify-content-around">
-          <li class="nav-item">
-            <button class="modal-btn" id="modal-item-search-button" data-bs-toggle="modal"
-              data-bs-target="#modal-item-search">
-              <img src="Anyagok/item search.jpg" alt="termék keresése" style="max-width: 50px; max-height: 50px;">
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="modal-btn" id="modal-add-manually-button" data-bs-toggle="modal"
-              data-bs-target="#modal-add-manually">
-              <img src="Anyagok/add manually.jpg" alt="termék hozzáadása" style="max-width: 50px; max-height: 50px;">
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="modal-btn" id="modal-scan-button" data-bs-toggle="modal" data-bs-target="#modal-scan">
-              <img src="Anyagok/scan.jpg" alt="beolvasás" style="max-width: 75px; max-height: 50px;">
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="modal-btn" id="modal-import-basket-button" data-bs-toggle="modal"
-              data-bs-target="#modal-import-basket">
-              <img src="Anyagok/import basket.jpg" alt="kosár importálása" style="max-width: 50px; max-height: 50px;">
-            </button>
-          </li>
-          <li class="nav-item">
-            <button onclick="cartExport()" class="modal-btn" id="modal-export-basket-button" data-bs-toggle="modal"
-              data-bs-target="#modal-export-basket">
-              <img src="Anyagok/export basket.jpg" alt="kosár exportálása" style="max-width: 50px; max-height: 50px;">
-            </button>
-          </li>
-        </ul>
-      </div>
+  <nav class="navbar navbar-expand-md navbar-light bg-light align-self-end align-self-md-center mx-auto position-relative">
+    <div class="container-fluid d-flex flex-md-column flex-row p-0 w-100">
+      <ul class="navbar-nav flex-md-column flex-row w-100 justify-content-around flex-wrap">
+        <li class="nav-item">
+          <button class="modal-btn" id="modal-item-search-button" data-bs-toggle="modal"
+            data-bs-target="#modal-item-search">
+            <img src="Anyagok/item search.jpg" alt="termék keresése" style="max-width: 50px; max-height: 50px;">
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="modal-btn" id="modal-add-manually-button" data-bs-toggle="modal"
+            data-bs-target="#modal-add-manually">
+            <img src="Anyagok/add manually.jpg" alt="termék hozzáadása" style="max-width: 50px; max-height: 50px;">
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="modal-btn" id="modal-scan-button" data-bs-toggle="modal" data-bs-target="#modal-scan">
+            <img src="Anyagok/scan.jpg" alt="beolvasás" style="max-width: 75px; max-height: 50px;">
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="modal-btn" id="modal-import-basket-button" data-bs-toggle="modal"
+            data-bs-target="#modal-import-basket">
+            <img src="Anyagok/import basket.jpg" alt="kosár importálása" style="max-width: 50px; max-height: 50px;">
+          </button>
+        </li>
+        <li class="nav-item">
+          <button onclick="cartExport()" class="modal-btn" id="modal-export-basket-button" data-bs-toggle="modal"
+            data-bs-target="#modal-export-basket">
+            <img src="Anyagok/export basket.jpg" alt="kosár exportálása" style="max-width: 50px; max-height: 50px;">
+          </button>
+        </li>
+      </ul>
     </div>
   </nav>
   <!-- toolbar gombok vége-->
@@ -188,15 +183,16 @@
     <hr>
     <div id="basket" class="d-flex flex-column align-items-center">
       <h2>Kosár</h2>
-      <table>
-        <thead id="thead"style="visibility: hidden;">
+      <table id="item-table" class="table table-bordered align-middle" style="visibility: hidden;">
+        <thead class="table-dark">
           <tr>
             <th>Mennyiség</th>
             <th>Név</th>
             <th>Ár(Ft)</th>
+            <th style="border: none;"></th>
           </tr>
         </thead>
-        <tbody id="item-table">
+        <tbody id="item-tbody">
         </tbody>
       </table>
       <button class="button" onclick="clearCart()" id="clear-cart">

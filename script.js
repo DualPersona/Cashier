@@ -6,7 +6,7 @@ const observer = new MutationObserver((mutationList, observer) => {
         updateTable()
     }
 })
-const observerTarget = document.getElementById("item-table")
+const observerTarget = document.getElementById("item-tbody")
 const observerConfig = {attributes: true, childList: true, subtree: true, characterData: true}
 observer.observe(observerTarget, observerConfig)
 
@@ -28,19 +28,20 @@ function quantityInputListener() {
     //le kell újra futtatni minden alkalommal amikor egy termék hozzá van adva a táblához hogy frissítse a queryselectoros nodelistet és hozzácsatolja az eventlistenereket az új mennyiség inputokhoz is :)) úgyhogy szépen meghívjuk ezt a TermekBeszurasa() funkcióban
 }
 
-function updateHeader() {
-    if (document.getElementById("item-table").rows.length < 1) {
-        document.getElementById("thead").style.visibility = "hidden"
+function renderTable() {
+    if (document.getElementById("item-tbody").rows.length < 1) {
+        document.getElementById("item-table").style.visibility = "hidden"
+
     }
     else {
-        document.getElementById("thead").style.visibility = "visible"
+        document.getElementById("item-table").style.visibility = "visible"
     }
 }
 
 function updatePrices() {
     totalPrice = 0
     observer.disconnect()
-    for (let tabla_sor of document.getElementById("item-table").rows){
+    for (let tabla_sor of document.getElementById("item-tbody").rows){
         tabla_sor.cells[2].textContent = Number(tabla_sor.cells[2].dataset.value) * Number(tabla_sor.cells[0].firstElementChild.value)
         totalPrice = totalPrice + Number(tabla_sor.cells[2].textContent)
     }
@@ -49,7 +50,7 @@ function updatePrices() {
 }
 
 function updateTable() {
-    updateHeader()
+    renderTable()
     updatePrices()
 }
 
@@ -60,7 +61,7 @@ function addItem() {
     const itemCategory = document.getElementById('item-category').value;
 
     if (itemName && itemQuantity > 0 && !isNaN(itemPrice) && itemPrice > 0) {
-        const itemList = document.getElementById('item-table');
+        const itemList = document.getElementById('item-tbody');
         const newItem = document.createElement('tr');
         const itemTotal = itemQuantity * itemPrice;
 
@@ -99,7 +100,7 @@ function removeItem(element) {
 }
 
 function clearCart() {
-    const itemList = document.getElementById('item-table');
+    const itemList = document.getElementById('item-tbody');
     itemList.innerHTML = '';
 
     totalPrice = 0;
@@ -108,7 +109,7 @@ function clearCart() {
 
 function filterItems() {
     const filterCategory = document.getElementById('filter-category').value;
-    const items = document.getElementById('item-table').getElementsByTagName('li');
+    const items = document.getElementById('item-tbody').getElementsByTagName('li');
 
     for (let i = 0; i < items.length; i++) {
         const itemCategory = items[i].getAttribute('data-category');
@@ -120,37 +121,84 @@ function filterItems() {
     }
 }
 
-
-
 // Keresés funkció
-function searchProduct() {
-    const searchInput = document.getElementById("search-input").value
+function searchProduct(isSearchMethodName) {
+    let hasResults = false
+
+    const place = document.getElementById("search-results")
+    place.innerHTML = ""
     fetch("termekek.php")
         .then(response => response.json())
         .then(data => {
-            const resultsList = document.getElementById("search-results");
-            resultsList.innerHTML = ""; // Kiürítjük a korábbi eredményeket
-
             if (data.length > 0) {
-                data.forEach(product => {
-                    if (product.nev.toLowerCase().includes(searchInput.toLowerCase())) {
-                        let tr = document.createElement("tr");
-                        tr.innerHTML =`
-                            <td><input class="form-check-input product-checkbox" type="checkbox" value="${product.id}"></td>
-                            <td>${product.nev}</td>
-                            <td>${product.ar} Ft</td>
-                        `
-                        resultsList.appendChild(tr);
+                if (isSearchMethodName === true) {
+                    const searchInput = document.getElementById("search-input").value
+                
+                    data.sort((a, b) => {
+                        const aStartsWith = a.nev.toLowerCase().startsWith(searchInput) ? 0 : 1;
+                        const bStartsWith = b.nev.toLowerCase().startsWith(searchInput) ? 0 : 1;
+                        
+                        if (aStartsWith === bStartsWith) {
+                            return a.nev.localeCompare(b.nev);
+                        }
+                        
+                        return aStartsWith - bStartsWith;
+                    });
+                    data.forEach(product => {
+                        if (product.nev.toLowerCase().includes(searchInput.toLowerCase())) {
+                            searchProductResultRender(product, place)
+                            hasResults = true
+                        }
+                    });
+                }
+                else {
+                    if (isSearchMethodName === false) {
+                        data.forEach(product => {
+                            if (product.kategoria_id === document.getElementById("item-category-search").value) {
+                                searchProductResultRender(product, place)
+                                hasResults = true
+                            }
+                        });
                     }
-                });
-            } else {
-                resultsList.innerHTML = "<tr><td>Nincs találat!</td></tr>";
+                    else {
+                        alert("rendszer hiba: A funkció nem kapott érvényes keresési módszer típust!")
+                    }
+                }
+            }
+            else {
+                place.innerHTML = "<tr><td>Nincs találat!</td></tr>"
+            }
+        })
+        .finally(() => {
+            if (hasResults === false) {
+                place.innerHTML = "<tr><td>Nincs találat!</td></tr>"
             }
         })
 };
+    
+function searchProductResultRender(product, place) {
+        
+    let tr = document.createElement("tr");
+    tr.innerHTML =`
+        <td><input class="form-check-input product-checkbox" type="checkbox" value="${product.id}"></td>
+        <td>${product.nev}</td>
+        <td>${product.ar} Ft</td>
+    `
+    place.appendChild(tr);
+}
 
-function AddToCart() {
-    Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked).forEach(item => {lekerdezes(item.value, 1)})
+document.getElementById('modal-item-search').addEventListener('show.bs.modal', function () {
+    if (document.getElementById("filter-type-name").checked) {
+        searchProduct(true)
+    }
+})
+
+async function AddToCart() {
+    const filteredItems = Array.from(document.querySelectorAll(".product-checkbox")).filter(item => item.checked)
+
+    for (const item of filteredItems) {
+        await lekerdezes(item.value, 1)
+    }
 }
 
 function VibrationFeedback() {
@@ -158,3 +206,29 @@ function VibrationFeedback() {
         navigator.vibrate(50);
     }
 }
+
+document.getElementById("filter-type-name").addEventListener("change", function() {
+    if (this.checked) {
+        document.getElementById("filter-type-category").removeAttribute("checked")
+        document.getElementById("search-results").innerHTML = ""
+        document.getElementById("item-entry").innerHTML = ""
+        document.getElementById("item-entry").innerHTML = `
+        <input type="text" id="search-input" placeholder="Termék neve" oninput="searchProduct(true)"></input>
+        `
+        searchProduct(true)
+    }
+})
+
+document.getElementById("filter-type-category").addEventListener("change", function() {
+    if (this.checked) {
+        document.getElementById("filter-type-name").removeAttribute("checked")
+        document.getElementById("search-results").innerHTML = ""
+        document.getElementById("item-entry").innerHTML = ""
+        document.getElementById("item-entry").innerHTML = `
+        <select id="item-category-search" class="form-select form-select-lg" aria-label="Large select example" onchange="searchProduct(false)">
+            <option disabled selected hidden>Kiválasztás</option>
+        </select>
+        `
+        renderCategories()
+    }
+})

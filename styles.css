@@ -36,25 +36,51 @@ input[type="text"],
 input[type="number"] {
     width: 100%;
     padding: 10px;
-    margin-top: 8px;
     border: 1px solid #ced4da;
     border-radius: 8px;
     box-sizing: border-box;
-    transition: all 0.4s ease;
-    background: #f8f9fa;
     box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0.625rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus {
     border-color: #00ff55;
     outline: none;
-    box-shadow: 0 0 10px rgba(123, 255, 0, 0.855);
-    background-color: #ffffff;
+    box-shadow: 0 0 0 0.025rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-check-input:hover {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0.2rem rgba(123, 255, 0, 0.855);
+    transform: scale(1.15);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.form-check-input:focus {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0 0.025rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-check-input:checked {
+    background-color: #00ff55;
+    border-color: #00ff55;
 }
 
 button {
-    padding: 12px 25px;
+    padding: 10px 10px;
     background: linear-gradient(45deg, #99ff00c0, #00ff33d5);
     color: #fff;
     border: none;
@@ -119,7 +145,6 @@ ul.active {
 #basket li:hover, .navbar li:hover {
     background-color: #f1f3f5;
     transform: translateX(8px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .modal-btn, #clear-cart {
@@ -153,24 +178,22 @@ ul.active {
     border-radius: 50px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
     .navbar {
         position: sticky !important;
         top: 25%;
-        bottom: 25%;
         z-index: 1050;
         height: auto;
     }
 }
   
-@media (max-width: 991.99px) {
+@media (max-width: 767.99px) {
     body{
         margin-bottom: 6.25rem;
     }
 
     .navbar {
         bottom: 0;
-        height: 6.25rem;
         width: 100%;
         position: fixed !important;
         z-index: 1050;
@@ -240,3 +263,95 @@ hr{
 #export-qrcode img {
     color-scheme: only light;
 }
+
+#filter-type {
+    display: flex;
+    border-radius: 3.125rem;
+    background-color: #ffffff;
+    color-scheme: only light;
+    min-width: 12.5rem;
+}
+
+#filter-type label {
+    border-color: transparent;
+}
+
+#filter-type:hover {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0.625rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.filter-button {
+    width: 100%;
+    border-radius: 3.125rem;
+}
+
+.filter-button:hover {
+    border-color: #00ff55;
+    outline: none;
+    box-shadow: 0 0 0 0.09rem rgba(123, 255, 0, 0.855);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn-check:checked + .filter-button {
+    background: linear-gradient(45deg, #99ff00c0, #00ff33d5);
+}
+
+#item-entry {
+    margin-bottom: 0.9375rem;
+    height: 80px;
+}
+
+.form-select {
+    color: grey;
+}
+
+.form-select:focus {
+    border-color: #00ff55;
+    box-shadow: 0 0 0 0.025rem rgba(123, 255, 0, 0.855);
+    outline: none;
+}
+
+.form-select:hover {
+    border-color: #00ff55;
+    box-shadow: 0 0 0.625rem rgba(123, 255, 0, 0.855);
+    outline: none;
+}
+
+.item-remove {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.quantity-input {
+    max-width: 75px;
+}
+
+#item-category-search option:hover {
+    background-color: #00ff55;
+}
+
+/* desktop size */
+#search-results input[type="checkbox"] {
+    width: 2vw;
+    height: 2vw;
+    margin-top: 0;
+}
+
+/* mobile size */
+@media (max-width: 768px) {
+    #search-results input[type="checkbox"] {
+      width: 7vw;
+      height: 7vw;
+    }
+  }
+  
+  /* tablet size*/
+  @media (max-width: 1024px) and (min-width: 769px) {
+    #search-results input[type="checkbox"] {
+      width: 5vw;
+      height: 5vw;
+    }
+  }
