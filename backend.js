@@ -3,19 +3,22 @@ function lekerdezes(recieved, mennyiseg){
     for (let tabla_sor of document.getElementById("item-tbody").rows){
         szereplo_termekek_tomb.push(tabla_sor.cells[1].textContent)
     }
-    console.log("szereplo_termekek_tomb:")
-    console.log(szereplo_termekek_tomb)
+
+    let isCodeValid = false
+
     fetch("termekek.php")
         .then(valasz => valasz.json())
         .then(valasz => {
             const hely = document.getElementById("item-tbody")
             valasz.forEach(termek => {
                 if (termek.id === recieved) {
+                    isCodeValid = true
                     if (szereplo_termekek_tomb.length > 0) {
                         let found = false;
                         for (let szereplo_termek of szereplo_termekek_tomb){
                             if (szereplo_termek === termek.nev) {
                                 document.getElementById(`${termek.nev}_mennyiség`).value++
+                                VibrationFeedback(50)
                                 found = true;
                                 break;
                             }
@@ -30,6 +33,11 @@ function lekerdezes(recieved, mennyiseg){
                 }
             })            
         })
+        .finally(() => {
+            if (!isCodeValid) {
+                alert("Ez a kód nem érvényes!")
+            }
+        })
 }
 
 function TermekBeszurasa(termek, hely, mennyiseg){
@@ -38,13 +46,13 @@ function TermekBeszurasa(termek, hely, mennyiseg){
         <td><input type="number" value="${mennyiseg}" min="0" step="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség" class="quantity-input"></td>
         <td data-value="${termek.id}">${termek.nev}</td>
         <td data-value="${termek.ar}">${termek.ar}</td>
-        <td><button class="button item-remove" onclick="this.closest('tr').remove()" id="${termek.nev}_torles">
+        <td><button class="button item-remove" onclick="removeItem(event.target)" id="${termek.nev}_torles">
             <img src="Anyagok/x-circle.svg" alt="kosár törlése">
             </button>
         </td>
     `;
     hely.appendChild(sor)
-
+    VibrationFeedback(50)
     quantityInputListener()
 }
 
@@ -87,6 +95,9 @@ function cartExport(){
     })
     .catch(error => {
         alert('Hiba történt: ', error)
+    })
+    .finally(() => {
+        VibrationFeedback([30, 1000, 30, 1000, 30])
     })
 }
 

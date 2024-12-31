@@ -53,7 +53,6 @@ document.getElementById('modal-scan').addEventListener('shown.bs.modal', functio
                     qrbox: qrboxFunction
                 },
                 (decodedText, decodedResult) => {
-                    VibrationFeedback()
                     console.log(decodedResult)
                     lekerdezes(decodedText, 1)
                     html5QrCode.pause()
@@ -94,13 +93,13 @@ function DisableScanner() {
 var importScanner = new Html5Qrcode('import-reader')
 
 document.getElementById('modal-import-basket').addEventListener('shown.bs.modal', function () {
+    VibrationFeedback([30, 100, 30, 100, 30])
     importScanner.start({ facingMode: "environment" },
         {
             fps: 20,
             qrbox: qrboxFunction
         },
         (decodedText, decodedResult) => {
-            VibrationFeedback()
             console.log(decodedResult)
             cartImport(decodedText)
             importScanner.stop()

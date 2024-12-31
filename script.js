@@ -97,6 +97,7 @@ function applyCoupon() {
 
 function removeItem(element) {
     element.closest("tr").remove();
+    VibrationFeedback(50)
 }
 
 function clearCart() {
@@ -105,6 +106,7 @@ function clearCart() {
 
     totalPrice = 0;
     document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+    VibrationFeedback(750)
 }
 
 function filterItems() {
@@ -201,15 +203,15 @@ async function AddToCart() {
     }
 }
 
-function VibrationFeedback() {
+function VibrationFeedback(duration) {
     if ("vibrate" in navigator) {
-        navigator.vibrate(50);
+        navigator.vibrate(duration);
     }
 }
 
 document.getElementById("filter-type-name").addEventListener("change", function() {
     if (this.checked) {
-VibrationFeedback()
+        VibrationFeedback(100)
         document.getElementById("filter-type-category").removeAttribute("checked")
         document.getElementById("search-results").innerHTML = ""
         document.getElementById("item-entry").innerHTML = ""
@@ -222,7 +224,7 @@ VibrationFeedback()
 
 document.getElementById("filter-type-category").addEventListener("change", function() {
     if (this.checked) {
-VibrationFeedback()
+        VibrationFeedback(100)
         document.getElementById("filter-type-name").removeAttribute("checked")
         document.getElementById("search-results").innerHTML = ""
         document.getElementById("item-entry").innerHTML = ""
