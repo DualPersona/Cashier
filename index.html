@@ -60,25 +60,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="add-manually">
-          <div class="item-entry">
-            <label for="item-name">Termék neve:</label>
-            <input type="text" id="item-name" placeholder="Pl.: Alma">
-          </div>
-          <div class="item-entry">
-            <label for="item-quantity">Mennyiség:</label>
-            <input type="number" id="item-quantity" placeholder="Pl.: 3" min="1" value="1">
-          </div>
-          <div class="item-entry">
-            <label for="item-price">Egységár (HUF):</label>
-            <input type="number" id="item-price" placeholder="Pl.: 150">
-          </div>
-          <div class="item-entry">
-            <label for="item-category-manual">Kategória:</label>
-            <input type="text" id="item-category-manual" placeholder="kategória neve">
-          </div>
+          <form id="login-form" onsubmit="submitForm(event)">
+            <label for="username">Felhasználónév:</label>
+            <input type="text" id="username" name="username" required>
+    
+            <label for="password">Jelszó:</label>
+            <input type="password" id="password" name="password" required>
+          </form>
         </div>
-        <div class="modal-footer">
-          <button onclick="addItem()">Hozzáadás a kosárhoz</button>
+        <div id="add-manually-footer" class="modal-footer">
+          <button onclick="">Passkey</button>
+          <button onclick="loginNFC()">NFC</button>
+          <button type="submit" id="login-submit" form="login-form">Belépés</button>
         </div>
       </div>
     </div>
@@ -150,7 +143,7 @@
           </button>
         </li>
         <li class="nav-item">
-          <button class="modal-btn" id="modal-add-manually-button" data-bs-toggle="modal"
+          <button onclick="checkAuth()" class="modal-btn" id="modal-add-manually-button" data-bs-toggle="modal"
             data-bs-target="#modal-add-manually">
             <img src="Anyagok/add manually.jpg" alt="termék hozzáadása" style="max-width: 50px; max-height: 50px;">
           </button>
@@ -218,6 +211,7 @@
   <script src="script.js"></script>
   <script src="Modulok/qrcode.js"></script>
   <script src="backend.js"></script>
+  <script src="authentication.js"></script>
 </body>
 
 </html>
