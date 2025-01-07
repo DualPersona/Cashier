@@ -34,24 +34,22 @@ function loginNFC() {
     if ("NDEFReader" in window){
         const nfcReader = new NDEFReader()
         
+        nfcReader.onreading = function(event) {
+            const nfcdata = new TextDecoder('utf-8').decode(event.message.records[0].data)
+
+            const username = nfcdata.split(":")[0]
+            const password = nfcdata.split(":")[1]
+
+            const data = new URLSearchParams()
+            data.append("username", username)
+            data.append("password", password)
+
+            Authenticate(data)
+        }
+
         nfcReader.scan()
         .then( () => {
             console.log("Nfc szkennelés");
-            nfcReader.addEventListener("reading", function(event) {
-                const nfcdata = new TextDecoder().decode(event.target.message.records[0].data)
-
-                const username = nfcdata.split(":")[0]
-                const password = nfcdata.split(":")[1]
-
-                nfcReader.stop()
-
-                const data = new URLSearchParams()
-                data.append("username", username)
-                data.append("password", password)
-
-
-                Authenticate(data)
-            })
         })
     }
     else{
