@@ -24,11 +24,11 @@ function lekerdezes(recieved, mennyiseg){
                             }
                         }
                         if (!found) {
-                            TermekBeszurasa(termek, hely, mennyiseg);
+                            TermekBeszurasa(termek, mennyiseg);
                         }
                     }
                     else{
-                        TermekBeszurasa(termek, hely, mennyiseg)
+                        TermekBeszurasa(termek, mennyiseg)
                     }
                 }
             })            
@@ -40,7 +40,8 @@ function lekerdezes(recieved, mennyiseg){
         })
 }
 
-function TermekBeszurasa(termek, hely, mennyiseg){
+function TermekBeszurasa(termek, mennyiseg){
+    const hely = document.getElementById("item-tbody")
     let sor = document.createElement('tr')
     sor.innerHTML = `
         <td><input type="number" value="${mennyiseg}" min="0" step="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség" class="quantity-input"></td>

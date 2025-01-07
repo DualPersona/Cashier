@@ -75,7 +75,7 @@ function checkAuth() {
               `
               document.getElementById("add-manually-footer").innerHTML = ""
               document.getElementById("add-manually-footer").innerHTML = `
-              <button onclick="addItem()">Hozzáadás a kosárhoz</button>
+              <button onclick="addCustomProduct()">Hozzáadás a kosárhoz</button>
               `
             } else {
                 console.log('Nincs bejelentkezve', data.message);
