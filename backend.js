@@ -94,11 +94,11 @@ function cartExport(){
             correctLevel: QRCode.CorrectLevel.M
         });
     })
+    .then(() => {
+        VibrationFeedback([30, 1000, 30, 1000, 30])
+    })
     .catch(error => {
         alert('Hiba történt: ', error)
-    })
-    .finally(() => {
-        VibrationFeedback([30, 1000, 30, 1000, 30])
     })
 }
 

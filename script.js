@@ -1,3 +1,7 @@
+//fontos hogy ez a js előrébb legyen felsorolva a többi js fájljainkhoz képest a html bodyban
+new bootstrap.Modal(document.getElementById("modal-scan"))
+new bootstrap.Modal(document.getElementById("modal-import-basket"))
+
 let totalPrice = 0;
 
 const observer = new MutationObserver((mutationList, observer) => {

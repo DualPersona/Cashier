@@ -150,13 +150,12 @@
           </button>
         </li>
         <li class="nav-item">
-          <button class="modal-btn" id="modal-scan-button" data-bs-toggle="modal" data-bs-target="#modal-scan">
+          <button class="modal-btn" id="modal-scan-button" onclick="scannerCheckCameras('modal-scan')">
             <img src="Anyagok/scan.jpg" alt="beolvasás" style="max-width: 75px; max-height: 50px;">
           </button>
         </li>
         <li class="nav-item">
-          <button class="modal-btn" id="modal-import-basket-button" data-bs-toggle="modal"
-            data-bs-target="#modal-import-basket">
+          <button class="modal-btn" id="modal-import-basket-button" onclick="scannerCheckCameras('modal-import-basket')">
             <img src="Anyagok/import basket.jpg" alt="kosár importálása" style="max-width: 50px; max-height: 50px;">
           </button>
         </li>
@@ -208,8 +207,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-  <script src="scanner.js"></script>
   <script src="script.js"></script>
+  <script src="scanner.js"></script>
   <script src="Modulok/qrcode.js"></script>
   <script src="backend.js"></script>
   <script src="authentication.js"></script>
