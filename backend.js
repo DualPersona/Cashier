@@ -75,7 +75,9 @@ function renderCategories() {
 function cartExport(){
     const adattomb = []
     for (let tabla_sor of document.getElementById("item-tbody").rows){
+if(tabla_sor.cells[1].dataset.value !== 0){
         adattomb.push({Darabszam: tabla_sor.cells[0].firstElementChild.value, termekID: tabla_sor.cells[1].dataset.value})
+}
     }
 
     fetch('export.php', {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(adattomb)})
