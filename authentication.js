@@ -31,13 +31,13 @@ function submitForm(event) {
 }
 
 
-function nfcScannerInitialize(isFirstRun) {
+function nfcScannerInitialize(enableReinitialization) {
     if ("NDEFReader" in window){
         const modalFooter = document.getElementById("add-manually-footer")
         modalFooter.style.display = "flex"
         modalFooter.style.flexDirection = "row-reverse"
         modalFooter.style.justifyContent = "space-between"
-        if (isFirstRun) { //ha nem az első futtatása a funkciónak akkor ne generáljon le még egyet
+        if (!document.querySelector("#add-manually-footer button#nfc-status")) { //azért hogy az újrainicializálás ne generáljon le még egy felesleget
             modalFooter.innerHTML += '<button id="nfc-status">NFC státusz</button>'
         }
         
@@ -67,7 +67,7 @@ function nfcScannerInitialize(isFirstRun) {
                 if (err.name === "NotAllowedError") {
                     alert("Hiba: A felhasználó nem engedélyezte az NFC használatát!")
                     nfcReader = new NDEFReader() //hozzárendelünk egy másik új példányt a változóhoz és felülírjuk az előző referenciáját/hivatkozását
-                    if (isFirstRun) {
+                    if (enableReinitialization) {
                         nfcScannerInitialize(false) //újra futtatjuk a funkciót az új NDEFReader példányunkkal és beadjuk a funkciónak hogy ez nem az első futtatása
                     }
                 }
@@ -85,27 +85,44 @@ function nfcScannerInitialize(isFirstRun) {
 nfcScannerInitialize(true)
 
 function checkAuth() {
+    const modalBody = document.getElementById("add-manually")
+    const modalFooter = document.getElementById("add-manually-footer")
     fetch('login.php')
         .then(response => response.json())
         .then(data => {
             if (data.signedIn) {
-                document.getElementById("add-manually").innerHTML = ""
-                document.getElementById("add-manually").innerHTML = `
+                modalBody.innerHTML = ""
+                modalBody.innerHTML = `
                 <div class="item-entry">
                 <label for="item-name">Termék neve:</label>
                 <input type="text" id="item-name" placeholder="Pl.: Alma">
-              </div>
-              <div class="item-entry">
+                </div>
+                <div class="item-entry">
                 <label for="item-price">Egységár (HUF):</label>
                 <input type="number" id="item-price" placeholder="Pl.: 150">
-              </div>
+                </div>
               `
-              document.getElementById("add-manually-footer").innerHTML = ""
-              document.getElementById("add-manually-footer").innerHTML = `
+              modalFooter.innerHTML = ""
+              modalFooter.innerHTML = `
               <button onclick="addCustomProduct()">Hozzáadás a kosárhoz</button>
               `
             } else {
                 console.log('Nincs bejelentkezve', data.message);
+                modalBody.innerHTML = ""
+                modalBody.innerHTML = `
+                <form id="login-form" onsubmit="submitForm(event)">
+                <label for="username">Felhasználónév:</label>
+                <input type="text" id="username" name="username" required>
+        
+                <label for="password">Jelszó:</label>
+                <input type="password" id="password" name="password" required>
+                </form>
+                `
+                modalFooter.innerHTML = ""
+                modalFooter.innerHTML = `
+                <button type="submit" id="login-submit" form="login-form">Belépés</button>
+                `
+                nfcScannerInitialize(true)
             }
         })
         .catch(error => console.error('Error:', error));    
