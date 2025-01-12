@@ -68,19 +68,6 @@ function addCustomProduct() {
     TermekBeszurasa(termek, 1)
 }
 
-// Kupon Funkció 
-function applyCoupon() {
-    const coupon = document.getElementById('coupon-code').value.trim();
-
-    if (coupon === "DISCOUNT10") {
-        totalPrice *= 0.9; // 10% kedvezmény
-        document.getElementById('total-price').textContent = totalPrice.toFixed(2);
-        alert('A kuponkód sikeresen beváltva! 10% kedvezményt kaptál.');
-    } else {
-        alert('Érvénytelen kuponkód!');
-    }
-}
-
 function removeItem(element) {
     element.closest("tr").remove();
     VibrationFeedback(50)
