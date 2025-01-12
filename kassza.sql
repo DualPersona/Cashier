@@ -42,8 +42,19 @@ CREATE TABLE IF NOT EXISTS import (
   FOREIGN KEY (importID) REFERENCES export(exportID),
   FOREIGN KEY (termekID) REFERENCES termekek(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+CREATE TABLE IF NOT EXISTS kereskedok (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  felhasznalonev VARCHAR(255) NOT NULL UNIQUE,
+  jelszo_hash VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+INSERT IGNORE INTO kereskedok (id, felhasznalonev, jelszo_hash) VALUES
+(1, "teszt123", "$2b$12$j56M0mupNeBaVPrCZSJsrumfzu75wt67FmawfKHYwmhAZuCjuc1Ra"),
+(2, "teszt", "$2y$10$tBkxL4edzBuzRGri4hvkkuP0Ioo.GuyIIAQXdbKyuKqdanAWNEAmi");
+
 -- Adatok hozzáadása a kategoriak táblához
-INSERT INTO kategoriak (nev) VALUES 
+INSERT IGNORE INTO kategoriak (nev) VALUES 
 ('Italok'),
 ('Snackek'),
 ('Háztartási cikkek'),
@@ -51,7 +62,7 @@ INSERT INTO kategoriak (nev) VALUES
 ('Tejtermékek');
 
 -- Adatok hozzáadása a termekek táblához
-INSERT INTO termekek (id, nev, ar, kategoria_id) VALUES
+INSERT IGNORE INTO termekek (id, nev, ar, kategoria_id) VALUES
 (1001, 'Coca-Cola 500ml', 150, 1),      -- 1: Italok
 (1002, 'Pepsi 500ml', 140, 1),          -- 1: Italok
 (1003, 'Narancslé 1L', 300, 1),         -- 1: Italok

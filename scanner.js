@@ -1,4 +1,4 @@
-let qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
+let qrScannerRectangular = function(viewfinderWidth, viewfinderHeight) {
     let minEdgePercentage = 0.7; // 70%
     let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
     let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
@@ -14,25 +14,47 @@ let qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
     }}
 }
 
-
-Html5Qrcode.getCameras()
-.then(camera_array => {
-    camera_array.forEach(camera => {
-        if (camera.label.toLowerCase().includes("windows virtual camera")) {
-            console.log(camera.label)
-            VirtualCamera()
-        }
-    });
-})
-.catch(err => {
-    if (err.name === "NotFoundError") {
-        //alert("Nincs rendelkezésre álló kamera! Szkennelés funkció nem elérhető!")
-        DisableScanner()
-    }
+let qrScannerSquare = function(viewfinderWidth, viewfinderHeight) {
+    let minEdgePercentage = 0.7;
+    let minEdgeSize = Math.min(viewfinderWidth, viewfinderHeight);
+    let qrboxSize = Math.floor(minEdgeSize * minEdgePercentage);
+    if (qrboxSize <= 0) {
+        return {
+            width: 150,
+            height: 150
+    }}
     else{
-        alert("Hiba lépett fel a kamera betöltése során!")
-    }
-})
+        return {
+            width: qrboxSize,
+            height: qrboxSize
+    }}
+}
+
+function scannerCheckCameras(modalName) {
+    Html5Qrcode.getCameras() //STATIKUS METÓDUS, A KÖNYVTÁRÁRA KELL HIVATKOZNI, NEM EGY PÉLDÁNYRA, tehát maradjon így
+    .then(() => {
+        bootstrap.Modal.getInstance(document.getElementById(modalName)).show()
+    })
+    .catch(err => {
+        if (html5QrCode.getState() !== 1 && html5QrCode.getState() !== 0) {
+            html5QrCode.stop()
+        }
+        if (importScanner.getState() !== 1 && importScanner.getState() !== 0) {
+            importScanner.stop()
+        }
+
+        if (err.name === "NotFoundError") {
+            alert("Nincs rendelkezésre álló kamera! Szkennelés funkció nem elérhető!")
+        }
+        else if (err.name === "NotAllowedError") {
+            alert("A felhasználó letiltotta a kamera használat engedélyét!")
+        }
+        else{
+            alert("Hiba lépett fel a kamera betöltése során!")
+            console.log(err.name)
+        }
+    })
+}
 
 var html5QrCode = new Html5Qrcode("reader");
 
@@ -45,12 +67,12 @@ document.getElementById('modal-scan').addEventListener('shown.bs.modal', functio
             break;
         case 1:
             console.log("case 1 triggered")
-            //leállítva
+            //elindítatlan
             html5QrCode.start(
                 { facingMode: "environment" },
                 {
                     fps: 20,
-                    qrbox: qrboxFunction
+                    qrbox: qrScannerRectangular
                 },
                 (decodedText, decodedResult) => {
                     console.log(decodedResult)
@@ -76,7 +98,7 @@ document.getElementById('modal-scan').addEventListener('shown.bs.modal', functio
 })
 
 document.getElementById("modal-scan").addEventListener("hidden.bs.modal", function () {
-    if (html5QrCode.getState() !== 3) {
+    if (html5QrCode.getState() === 2) {
         html5QrCode.pause()
     }
 })
@@ -85,27 +107,32 @@ function VirtualCamera() {
     alert("Beolvasáskor a kamera vízszintbe forgatása ajánlott!")
 }
 
-function DisableScanner() {
-    let button = document.getElementById("modal-scan-button")
-    button.disabled = true
-}
-
 var importScanner = new Html5Qrcode('import-reader')
 
 document.getElementById('modal-import-basket').addEventListener('shown.bs.modal', function () {
-    VibrationFeedback([30, 100, 30, 100, 30])
-    importScanner.start({ facingMode: "environment" },
-        {
-            fps: 20,
-            qrbox: qrboxFunction
-        },
-        (decodedText, decodedResult) => {
-            console.log(decodedResult)
-            cartImport(decodedText)
-            importScanner.stop()
-            bootstrap.Modal.getInstance(document.getElementById("modal-import-basket")).hide() //szkenner ablak automatikus elrejtése sikeres beolvasás után
-        },
-        (errorMessage) => {
-        })
+    if (importScanner.getState() === 1) {
+        importScanner.start({ facingMode: "environment" },
+            {
+                fps: 20,
+                qrbox : qrScannerSquare
+            },
+            (decodedText, decodedResult) => {
+                console.log(decodedResult)
+                cartImport(decodedText)
+                importScanner.stop()
+                bootstrap.Modal.getInstance(document.getElementById("modal-import-basket")).hide() //szkenner ablak automatikus elrejtése sikeres beolvasás után
+            },
+            (errorMessage) => {
+            }
+        )
+    }
+    else if (importScanner.getState() === 3) {
+        importScanner.resume()
+    }
 })
 
+document.getElementById("modal-import-basket").addEventListener("hidden.bs.modal", function () {
+    if (importScanner.getState() === 2) {
+        importScanner.pause()
+    }
+})

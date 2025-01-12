@@ -1,3 +1,7 @@
+//fontos hogy ez a js előrébb legyen felsorolva a többi js fájljainkhoz képest a html bodyban
+new bootstrap.Modal(document.getElementById("modal-scan"))
+new bootstrap.Modal(document.getElementById("modal-import-basket"))
+
 let totalPrice = 0;
 
 const observer = new MutationObserver((mutationList, observer) => {
@@ -54,45 +58,14 @@ function updateTable() {
     updatePrices()
 }
 
-function addItem() {
-    const itemName = document.getElementById('item-name').value;
-    const itemQuantity = parseInt(document.getElementById('item-quantity').value);
-    const itemPrice = parseFloat(document.getElementById('item-price').value);
-    const itemCategory = document.getElementById('item-category').value;
-
-    if (itemName && itemQuantity > 0 && !isNaN(itemPrice) && itemPrice > 0) {
-        const itemList = document.getElementById('item-tbody');
-        const newItem = document.createElement('tr');
-        const itemTotal = itemQuantity * itemPrice;
-
-        newItem.innerHTML = `
-        <td>${itemName}</td>
-        <td>${itemTotal.toFixed(2)} HUF</td>
-        <button class="delete-btn" onclick="removeItem(this, ${itemTotal})">Törlés</button>`;
-        itemList.appendChild(newItem);
-
-        totalPrice += itemTotal;
-        document.getElementById('total-price').textContent = totalPrice.toFixed(2);
-
-        // Tisztítja a mezőket
-        document.getElementById('item-name').value = '';
-        document.getElementById('item-quantity').value = 1;
-        document.getElementById('item-price').value = '';
-    } else {
-        alert('Kérlek, add meg a termék nevét, mennyiségét és árát helyesen!');
+function addCustomProduct() {
+    const termek = {
+        nev: document.getElementById('item-name').value,
+        id: "0",
+        ar: document.getElementById('item-price').value
     }
-}
-// Kupon Funkció 
-function applyCoupon() {
-    const coupon = document.getElementById('coupon-code').value.trim();
 
-    if (coupon === "DISCOUNT10") {
-        totalPrice *= 0.9; // 10% kedvezmény
-        document.getElementById('total-price').textContent = totalPrice.toFixed(2);
-        alert('A kuponkód sikeresen beváltva! 10% kedvezményt kaptál.');
-    } else {
-        alert('Érvénytelen kuponkód!');
-    }
+    TermekBeszurasa(termek, 1)
 }
 
 function removeItem(element) {

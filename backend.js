@@ -24,11 +24,11 @@ function lekerdezes(recieved, mennyiseg){
                             }
                         }
                         if (!found) {
-                            TermekBeszurasa(termek, hely, mennyiseg);
+                            TermekBeszurasa(termek, mennyiseg);
                         }
                     }
                     else{
-                        TermekBeszurasa(termek, hely, mennyiseg)
+                        TermekBeszurasa(termek, mennyiseg)
                     }
                 }
             })            
@@ -40,7 +40,8 @@ function lekerdezes(recieved, mennyiseg){
         })
 }
 
-function TermekBeszurasa(termek, hely, mennyiseg){
+function TermekBeszurasa(termek, mennyiseg){
+    const hely = document.getElementById("item-tbody")
     let sor = document.createElement('tr')
     sor.innerHTML = `
         <td><input type="number" value="${mennyiseg}" min="0" step="1" name="${termek.nev}_mennyiség" id="${termek.nev}_mennyiség" class="quantity-input"></td>
@@ -74,31 +75,44 @@ function renderCategories() {
 function cartExport(){
     const adattomb = []
     for (let tabla_sor of document.getElementById("item-tbody").rows){
-        adattomb.push({Darabszam: tabla_sor.cells[0].firstElementChild.value, termekID: tabla_sor.cells[1].dataset.value})
-    }
-
-    fetch('export.php', {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(adattomb)})
-    .then(valasz => {
-        if (!valasz.ok) {
-            throw new Error('Nincs válasz')
+        if(tabla_sor.cells[1].dataset.value !== "0"){
+            adattomb.push({Darabszam: tabla_sor.cells[0].firstElementChild.value, termekID: tabla_sor.cells[1].dataset.value})
         }
-        return valasz.json()
-    })
-    .then(adat => {
-        document.getElementById("export-qrcode").innerHTML = ""
-        new QRCode(document.getElementById("export-qrcode"), {
-            text: String(adat.uzenet),
-            width: 200,
-            height: 200,
-            correctLevel: QRCode.CorrectLevel.M
-        });
-    })
-    .catch(error => {
-        alert('Hiba történt: ', error)
-    })
-    .finally(() => {
-        VibrationFeedback([30, 1000, 30, 1000, 30])
-    })
+    }
+    if (adattomb.length > 0) {
+        fetch('export.php', {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(adattomb)})
+        .then(valasz => {
+            if (!valasz.ok) {
+                throw new Error('Nincs válasz')
+            }
+            return valasz.json()
+        })
+        .then(adat => {
+            document.getElementById("export-body").innerHTML = ""
+            document.getElementById("export-body").innerHTML = `
+            <h6>A kapott kódot kérlek mutasd meg a kasszásnak!</h6>
+            <div id="export-qrcode">
+            </div>
+            <p>Az egyéni (bejelentkezés után hozzáadható) termékek nem kerülnek megosztásra.</p>
+            `
+            new QRCode(document.getElementById("export-qrcode"), {
+                text: String(adat.uzenet),
+                width: 200,
+                height: 200,
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        })
+        .then(() => {
+            VibrationFeedback([30, 1000, 30, 1000, 30])
+        })
+        .catch(error => {
+            alert(`Hiba történt:  ${error}`)
+        })
+    }
+    else {
+        document.getElementById("export-body").innerHTML = ""
+        document.getElementById("export-body").innerHTML = "<h6>A kosár megosztására nincs lehetőség üres vagy csak egyéni termékekkel teli kosárnál!</h6>"
+    }
 }
 
 function cartImport(exportID){
