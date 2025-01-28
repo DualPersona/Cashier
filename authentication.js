@@ -104,7 +104,7 @@ function checkAuth() {
               `
               modalFooter.innerHTML = ""
               modalFooter.innerHTML = `
-              <button onclick="addCustomProduct()">Hozzáadás a kosárhoz</button>
+              <button onclick="addCustomProduct()">Hozzáadás</button>
               `
             } else {
                 console.log('Nincs bejelentkezve', data.message);
