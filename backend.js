@@ -29,6 +29,9 @@ function lekerdezes(recieved, mennyiseg){
                         if (!found) {
                             TermekBeszurasa(termek, mennyiseg);
                         }
+                        else{
+                            updateTable()
+                        }
                     }
                     else{
                         TermekBeszurasa(termek, mennyiseg)
