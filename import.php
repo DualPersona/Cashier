@@ -1,7 +1,7 @@
 <?php
-//adatbázis kapcsolat létrehozása
+
 require_once('kapcsolat.php');
-//metódus lekérdezése (GET)
+
 
 if($_SERVER["REQUEST_METHOD"] === "GET"){
     $query = "SELECT importID, termekID, mennyiseg
@@ -27,9 +27,9 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
         header('Content-Type: application/json'); //mivel JSON formátumú adatot ad vissza
         echo json_encode($termekek); //echo -- kiíratás
     }
-    else{ //ha null $result (azaz nem jöttek adatok az adatbázisból)
-        //header('Content-Type: application/json');
-        echo json_encode(['uzenet' => 'Hiba történt az adatok lekérésekor!']); //itt is JSON mehet vissza
+    else{
+        header('Content-Type: application/json');
+        echo json_encode(['uzenet' => 'Hiba történt az adatok lekérésekor!']);
     }
 } //GET vége
 

@@ -9,6 +9,9 @@ function lekerdezes(recieved, mennyiseg){
     fetch("termekek.php")
         .then(valasz => valasz.json())
         .then(valasz => {
+            if (valasz.hasOwnProperty("uzenet")) {
+                throw new Error(valasz.uzenet)
+            } // azokhoz a php fájlokhoz ne használjuk fel újra ezt, amik nem csak a hibaüzenetet tartalmazzák "uzenet" kulcs alatt, hanem a helyes adatokat is
             const hely = document.getElementById("item-tbody")
             valasz.forEach(termek => {
                 if (termek.id === recieved) {
@@ -31,13 +34,14 @@ function lekerdezes(recieved, mennyiseg){
                         TermekBeszurasa(termek, mennyiseg)
                     }
                 }
-            })            
-        })
-        .finally(() => {
+            })
             if (!isCodeValid) {
-                alert("Ez a kód nem érvényes!")
-            }
+                throw new Error("Ez a kód nem érvényes!")
+            }            
         })
+        .catch(err => {
+            alert(`Hiba: ${err.message}`);
+        });
 }
 
 function TermekBeszurasa(termek, mennyiseg){
@@ -117,13 +121,24 @@ function cartExport(){
 
 function cartImport(exportID){
     document.querySelector("#item-tbody").innerHTML = ""
+    let isCodeValid = false
     fetch("import.php")
     .then(valasz => valasz.json())
-    .then(adat =>
+    .then(adat => {
+        if (adat.hasOwnProperty("uzenet")) {
+            throw new Error(adat.uzenet)
+        } // azokhoz a php fájlokhoz ne használjuk fel újra ezt, amik nem csak a hibaüzenetet tartalmazzák "uzenet" kulcs alatt, hanem a helyes adatokat is
         adat.forEach(item => {
             if (item.importID == exportID) {
+                isCodeValid = true
                 lekerdezes(item.termekID, item.mennyiseg)
             }
         })
-    )
+        if (!isCodeValid) {
+            throw new Error("Ez a kód nem érvényes!")   
+        }
+    })
+    .catch(err => {
+        alert(`Hiba: ${err.message}`);
+    });
 }
