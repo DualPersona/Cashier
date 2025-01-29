@@ -63,28 +63,23 @@ INSERT IGNORE INTO kategoriak (nev) VALUES
 
 -- Adatok hozzáadása a termekek táblához
 INSERT IGNORE INTO termekek (id, nev, ar, kategoria_id) VALUES
-(1001, 'Coca-Cola 500ml', 150, 1),      -- 1: Italok
-(1002, 'Pepsi 500ml', 140, 1),          -- 1: Italok
-(1003, 'Narancslé 1L', 300, 1),         -- 1: Italok
-(2001, 'Lays Chips 150g', 250, 2),      -- 2: Snackek
-(2002, 'Snickers Szelet', 120, 2),      -- 2: Snackek
-(2003, 'Oreo Keksz 154g', 300, 2),      -- 2: Snackek
-(3001, 'Papírtörlő', 450, 3),           -- 3: Háztartási cikkek
-(3002, 'Mosogatószer 500ml', 500, 3),   -- 3: Háztartási cikkek
-(3003, 'WC papír 4 tekercs', 350, 3),   -- 3: Háztartási cikkek
-(4001, 'Fehér Kenyér 500g', 300, 4),    -- 4: Pékáru
-(4002, 'Zsemle', 40, 4),                -- 4: Pékáru
-(5001, 'Tej 1L', 220, 5),               -- 5: Tejtermékek
-(5002, 'Sajt 200g', 600, 5),            -- 5: Tejtermékek
+(1111111111116, 'Cola', 150, 1),      -- 1: Italok
+(1111111111123, 'Víz', 140, 1),          -- 1: Italok
+(1111111111130, 'Narancslé', 300, 1),         -- 1: Italok
+(2111111111115, 'Chips', 250, 2),      -- 2: Snackek
+(2111111111122, 'Müzli Szelet', 120, 2),      -- 2: Snackek
+(2111111111139, 'Keksz', 300, 2),      -- 2: Snackek
+(3111111111114, 'Papírtörlő', 450, 3),           -- 3: Háztartási cikkek
+(3111111111121, 'Mosogatószer', 500, 3),   -- 3: Háztartási cikkek
+(3111111111138, 'WC papír', 350, 3),   -- 3: Háztartási cikkek
+(4111111111113, 'Fehér Kenyér', 300, 4),    -- 4: Pékáru
+(4111111111120, 'Zsemle', 40, 4),                -- 4: Pékáru
+(5111111111112, 'Tej', 220, 5),               -- 5: Tejtermékek
+(5111111111129, 'Sajt', 600, 5),            -- 5: Tejtermékek
 (4056489110767, 'Zsebkendő', 500, 3),   -- 3: Háztartási cikkek
 (4058172348754, 'Illatkendő', 500, 3);  -- 3: Háztartási cikkek
 
--- Indexek létrehozása
 ALTER TABLE kategoriak
   ADD UNIQUE (nev);
-
--- Tábla indexek létrehozása a termekek táblához
-ALTER TABLE termekek
-  ADD INDEX (kategoria_id);
 
 COMMIT;
