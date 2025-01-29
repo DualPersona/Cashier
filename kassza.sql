@@ -79,7 +79,6 @@ INSERT IGNORE INTO termekek (id, nev, ar, kategoria_id) VALUES
 (4056489110767, 'Zsebkendő', 500, 3),   -- 3: Háztartási cikkek
 (4058172348754, 'Illatkendő', 500, 3);  -- 3: Háztartási cikkek
 
--- Indexek létrehozása
 ALTER TABLE kategoriak
   ADD UNIQUE (nev);
 
