@@ -1,5 +1,5 @@
 function Authenticate(data){
-    fetch('login.php', {
+    fetch('PHP/login.php', {
         method: "POST",
         body: data
     })
@@ -87,7 +87,7 @@ nfcScannerInitialize(true)
 function checkAuth() {
     const modalBody = document.getElementById("add-manually")
     const modalFooter = document.getElementById("add-manually-footer")
-    fetch('login.php')
+    fetch('PHP/login.php')
         .then(response => response.json())
         .then(data => {
             if (data.signedIn) {
