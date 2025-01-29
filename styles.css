@@ -221,6 +221,7 @@ hr{
     border-radius: 0.3125rem;
     width: 25%;
     margin: 0.3125rem auto 2.5rem auto;
+    opacity: unset;
 }
 
 .btn-close {
